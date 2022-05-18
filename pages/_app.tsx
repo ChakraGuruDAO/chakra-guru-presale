@@ -2,6 +2,7 @@ import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useMemo } from "react";
+import theme from "theme";
 
 interface AppCustomProps extends AppProps {
   Component: NextPage;
@@ -17,7 +18,7 @@ function App({ Component, pageProps }: AppCustomProps) {
 
   return (
     <>
-      <ChakraProvider>{node}</ChakraProvider>
+      <ChakraProvider theme={theme}>{node}</ChakraProvider>
     </>
   );
 }

@@ -8,7 +8,7 @@ export const SimpleBlock: React.FC<PropsWithChildren<SimpleBlockProps>> = ({
 }) => {
   return (
     <Box
-      padding="66px"
+      padding="24px 40px"
       background="rgba(255, 255, 255, 0.5)"
       backdropFilter="blur(100px)"
       borderRadius="30px"
