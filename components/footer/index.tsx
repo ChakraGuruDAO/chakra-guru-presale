@@ -1,20 +1,21 @@
 import {
   ButtonGroup,
   Container,
+  Flex,
   IconButton,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { Logo } from "../logo";
+import { Logo } from "components/logo";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 export interface FooterProps {}
 
 export const Footer: React.FC<FooterProps> = ({}) => {
   return (
-    <Container as="footer">
-      <Stack spacing={{ base: "4", md: "5" }}>
-        <Stack justify="space-between" direction="row" align="center">
+    <Container as="footer" flex={1}>
+      <Container>
+        <Flex justify="space-between" direction="row" align="center">
           <Logo />
           <ButtonGroup variant="ghost">
             <IconButton
@@ -36,12 +37,12 @@ export const Footer: React.FC<FooterProps> = ({}) => {
               icon={<FaTwitter fontSize="1.25rem" />}
             />
           </ButtonGroup>
-        </Stack>
+        </Flex>
         <Text fontSize="sm" color="subtle">
           &copy; {new Date().getFullYear()} Chakra UI Pro, Inc. All rights
           reserved.
         </Text>
-      </Stack>
+      </Container>
     </Container>
   );
 };

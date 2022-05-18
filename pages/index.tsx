@@ -1,9 +1,19 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
+import { NextPage } from "next";
+import { Dashboard } from "layouts/dashboard";
+import { Flex, VStack } from "@chakra-ui/react";
+import { Info } from "blocks/info";
 
 const Home: NextPage = () => {
-  return <div>Home Page</div>;
+  return (
+    <VStack flex="1" gap="60px">
+      <Info />
+      <Info />
+    </VStack>
+  );
+};
+
+Home.getLayout = ({ children }) => {
+  return <Dashboard>{children}</Dashboard>;
 };
 
 export default Home;

@@ -1,16 +1,16 @@
 import { NextPage } from "next";
 import { Dashboard } from "layouts/dashboard";
 
-export interface OverviewProps {
+export interface PresaleProps {
   hello: string;
 }
 
-const Overview: NextPage<OverviewProps> = () => {
+const Presale: NextPage<PresaleProps> = () => {
   return <>Overview</>;
 };
 
-Overview.getLayout = ({ children }) => {
+Presale.getLayout = ({ children }) => {
   return <Dashboard>{children}</Dashboard>;
 };
 
-export default Overview;
+export default Presale;
