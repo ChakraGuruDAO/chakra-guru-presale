@@ -1,16 +1,18 @@
-import { HStack } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { ButtonConnect } from "../buttonConnect";
-import { Logo } from "../logo";
+import { Logo } from "components/logo";
 import { HeaderMenu } from "../menu";
 
 export interface HeaderProps {}
 
 export const Header: React.FC<HeaderProps> = ({}) => {
   return (
-    <HStack>
+    <Flex flex="1" justifyContent="space-between" maxH="60px">
       <Logo />
-      <HeaderMenu />
-      <ButtonConnect />
-    </HStack>
+      <Flex>
+        <HeaderMenu />
+        <ButtonConnect />
+      </Flex>
+    </Flex>
   );
 };

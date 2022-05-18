@@ -5,10 +5,10 @@ import { Info } from "blocks/info";
 
 const Home: NextPage = () => {
   return (
-    <VStack flex="1" gap="60px">
+    <Flex flex="1" gap="60px" direction="column">
       <Info />
       <Info />
-    </VStack>
+    </Flex>
   );
 };
 
