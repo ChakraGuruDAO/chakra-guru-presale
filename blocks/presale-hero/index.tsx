@@ -14,10 +14,15 @@ import { Karma } from "components/chakra";
 import { Description } from "components/description";
 import { Metamask } from "components/metamask";
 import { SimpleBlock } from "components/simpleBlock";
+import { Timer } from "components/timer";
 import { Title } from "components/title";
 import React, { PropsWithChildren } from "react";
 
-export const Presale: React.FC = () => {
+export interface PresaleHeroProps {
+  expiresAt: Date;
+}
+
+export const PresaleHero: React.FC<PresaleHeroProps> = ({ expiresAt }) => {
   return (
     <Flex flex={1} flexDirection="column">
       <Flex mb="10">
@@ -29,23 +34,19 @@ export const Presale: React.FC = () => {
           </HStack>
         </Box>
       </Flex>
-      <SimpleGrid
-        columns={2}
-        gap="40px"
-        gridAutoColumns="1fr"
-        gridAutoFlow="column"
-      >
+      <SimpleGrid columns={2} gap="100px">
         <VStack alignItems="flex-start" pt={3}>
           <Description mb={5}>
             Participate in the Pre Sale. You can purchase KARMA tokens as an
             early adopter of our project Chakra Guru DAO. The receipt of the
             tokens will be claimed out according to the unlock map.
           </Description>
-          <Box mt={10}>
+          {/* <Box mt={10}>
             <Button colorScheme="blue" alignItems="center">
               <Metamask size="28px" mb="2px" mr={3} /> Add KARMA to MetaMask
             </Button>
-          </Box>
+          </Box> */}
+          <Timer expireOn={expiresAt} />
         </VStack>
         <SimpleBlock>
           <HStack>

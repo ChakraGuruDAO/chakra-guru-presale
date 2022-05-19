@@ -1,6 +1,8 @@
 import { NextPage } from "next";
 import { Dashboard } from "layouts/dashboard";
 import {
+  Box,
+  Button,
   Container,
   Flex,
   Heading,
@@ -8,8 +10,8 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Presale } from "blocks/presale";
-import { StepsVertical } from "components/stepsVertical";
+import { RoadmapComponent } from "components/steps";
+import { PresaleHero } from "blocks/presale-hero";
 import { PresaleInfo } from "blocks/presale-info";
 import { Karma } from "components/chakra";
 const date = new Date(2023, 1, 1, 1, 1, 1, 0);
@@ -17,7 +19,7 @@ const date = new Date(2023, 1, 1, 1, 1, 1, 0);
 const PresalePage: NextPage = () => {
   return (
     <Flex flex="1" gap="60px" direction="column">
-      <Presale />
+      <PresaleHero expiresAt={date} />
       <PresaleInfo
         tokenInfo={{
           tokenName: "KARMA Token",
@@ -87,13 +89,63 @@ const PresalePage: NextPage = () => {
           ],
         }}
       />
-      <Container flex="1">
+      <Flex flex="1" flexDirection="column" alignItems="center">
         <HStack alignItems="center">
           <Heading>How to take part in the</Heading>
           <Heading color="blue">pre-sale</Heading>
         </HStack>
-        {/* <StepsVertical /> */}
-      </Container>
+        <Box mt={20}>
+          <RoadmapComponent
+            items={[
+              {
+                key: 1,
+                title: "1. Connect MetaMask Wallet",
+                content: (
+                  <VStack>
+                    <Text>
+                      First you need to install a Metamask Wallet. After that
+                      you need to Connect it
+                    </Text>
+                    <Button>Connect Wallet</Button>
+                  </VStack>
+                ),
+              },
+              {
+                key: 2,
+                title: "2. Buy $BUSD for Pre-Sale",
+                content: (
+                  <Text>
+                    You will need other tokens to participate in the sale. Take
+                    care of this in advance, because the sale can be closed
+                    quickly
+                  </Text>
+                ),
+              },
+              {
+                key: 3,
+                title: "3. Register for Sale",
+                content: (
+                  <Text>
+                    During the Pre-Sale period, you must confirm your interest
+                    in participating. After the Sale closes, you will no longer
+                    be able to buy tokens in this sale
+                  </Text>
+                ),
+              },
+              {
+                key: 4,
+                title: "4. Claim your tokens",
+                content: (
+                  <Text>
+                    After the end of the sale, you can claim any tokens you have
+                    purchased according to the vesting map.
+                  </Text>
+                ),
+              },
+            ]}
+          />
+        </Box>
+      </Flex>
     </Flex>
   );
 };
