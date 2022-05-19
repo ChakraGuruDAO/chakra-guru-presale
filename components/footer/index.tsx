@@ -21,9 +21,23 @@ import {
   FaDiscord,
 } from "react-icons/fa";
 
-export interface FooterProps {}
+export interface FooterProps {
+  siteUrl: string;
+  telegramUrl: string;
+  twitterUrl: string;
+  githubUrl: string;
+  discordUrl: string;
+  mediumUrl: string;
+}
 
-export const Footer: React.FC<FooterProps> = ({}) => {
+export const Footer: React.FC<FooterProps> = ({
+  siteUrl,
+  telegramUrl,
+  twitterUrl,
+  githubUrl,
+  discordUrl,
+  mediumUrl,
+}) => {
   return (
     <Flex
       as="footer"
@@ -32,52 +46,59 @@ export const Footer: React.FC<FooterProps> = ({}) => {
       justifyContent={"space-between"}
       alignItems="center"
       maxH="60px"
+      flexDirection={{ base: "column", md: "row" }}
     >
       <Flex flex="1">
         <Logo />
       </Flex>
-      <Flex>
+      <Flex my={{ base: 3 }}>
         <ButtonGroup variant="ghost">
           <IconButton
             as="a"
-            href="#"
-            aria-label="Twitter"
+            target="_blank"
+            href={siteUrl}
+            aria-label="ChakraGuru"
             icon={<FaYinYang fontSize="1.5rem" transform="rotate(90)" />}
           />
           <IconButton
             as="a"
-            href="#"
-            aria-label="GitHub"
+            target="_blank"
+            href={telegramUrl}
+            aria-label="Telegram"
             icon={<FaTelegramPlane fontSize="1.5rem" />}
           />
           <IconButton
             as="a"
-            href="#"
-            aria-label="LinkedIn"
+            target="_blank"
+            href={twitterUrl}
+            aria-label="Twitter"
             icon={<FaTwitter fontSize="1.5rem" />}
           />
           <IconButton
             as="a"
-            href="#"
+            target="_blank"
+            href={githubUrl}
             aria-label="GitHub"
             icon={<FaGithub fontSize="1.5rem" />}
           />
           <IconButton
             as="a"
-            href="#"
-            aria-label="GitHub"
+            target="_blank"
+            href={discordUrl}
+            aria-label="Discord"
             icon={<FaDiscord fontSize="1.5rem" />}
           />
           <IconButton
             as="a"
-            href="#"
-            aria-label="GitHub"
+            target="_blank"
+            href={mediumUrl}
+            aria-label="Medium"
             icon={<FaMedium fontSize="1.5rem" transform="" />}
           />
         </ButtonGroup>
       </Flex>
       <Flex flex="1" justifyContent="flex-end">
-        <Text fontSize="sm" color="subtle">
+        <Text fontSize="sm" color="subtle" align="right">
           &copy; {new Date().getFullYear()} Chakra Guru DAO. All rights
           reserved.
         </Text>

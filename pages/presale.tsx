@@ -8,6 +8,7 @@ import {
   Heading,
   HStack,
   Text,
+  useColorMode,
   VStack,
 } from "@chakra-ui/react";
 import { RoadmapComponent } from "components/steps";
@@ -17,8 +18,11 @@ import { Karma } from "components/chakra";
 const date = new Date(2023, 1, 1, 1, 1, 1, 0);
 
 const PresalePage: NextPage = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
+  console.log(colorMode);
   return (
     <Flex flex="1" gap="60px" direction="column">
+      <Button onClick={toggleColorMode}>Click</Button>
       <PresaleHero expiresAt={date} />
       <PresaleInfo
         tokenInfo={{

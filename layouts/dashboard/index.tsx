@@ -21,7 +21,14 @@ export const Dashboard: React.FC<PropsWithChildren<{}>> = ({ children }) => {
           {children}
         </Flex>
         <Flex width="100%" pt="10" pb="10">
-          <Footer />
+          <Footer
+            siteUrl="https://chakra.guru/"
+            githubUrl="https://github.com/ChakraGuruDAO"
+            telegramUrl="https://t.me/chakra_guru"
+            discordUrl="https://discord.gg/FtvwdzHhkK"
+            twitterUrl="https://twitter.com/ChakraGuruDAO"
+            mediumUrl="https://chakraguru.medium.com/"
+          />
         </Flex>
       </Flex>
     </Container>

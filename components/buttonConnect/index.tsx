@@ -1,5 +1,7 @@
-import { Button } from "@chakra-ui/react";
+import { Button, ButtonProps, Icon } from "@chakra-ui/react";
 
-export const ButtonConnect: React.FC = () => {
-  return <Button>Connect wallet</Button>;
+export interface ButtonConnectProps extends ButtonProps {}
+
+export const ButtonConnect: React.FC<ButtonConnectProps> = (props) => {
+  return <Button {...props}>Connect wallet</Button>;
 };

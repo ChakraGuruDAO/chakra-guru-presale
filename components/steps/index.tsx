@@ -38,7 +38,6 @@ const CheckIcon = createIcon({
 export const RoadmapComponent: React.FC<RoadmapComponentProps> = ({
   items,
 }) => {
-  console.log(items);
   return (
     <VStack
       position="relative"
@@ -57,7 +56,7 @@ export const RoadmapComponent: React.FC<RoadmapComponentProps> = ({
             </VStack>
           </SimpleBlock>
         );
-        console.log(item, isLeft);
+
         return (
           <HStack flex={1} key={item.key} justifyContent="stretch">
             <Flex flex={1}>{!isLeft ? content : null}</Flex>

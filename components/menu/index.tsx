@@ -1,16 +1,20 @@
 import { Button, ButtonGroup, Flex, Link } from "@chakra-ui/react";
+import NextLink from "next/link";
 
 export const HeaderMenu: React.FC = () => {
   return (
     <>
       <Flex>
-        <ButtonGroup variant="ghost">
-          <Button as="a" href="/">
-            Overview
-          </Button>
-          <Button as="a" href="/presale">
-            Pre-Sale
-          </Button>
+        <ButtonGroup
+          variant="ghost"
+          flexDirection={{ base: "column", md: "row" }}
+          width={{ base: "full", md: "fit-content" }}
+        >
+          <NextLink href="/presale" passHref>
+            <Button as="a">Pre-Sale</Button>
+          </NextLink>
+
+          <Button disabled={true}>Overview</Button>
           <Button disabled={true}>NFT</Button>
         </ButtonGroup>
       </Flex>

@@ -192,7 +192,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
         : null,
     [claimInfo, tokenInfo]
   );
-  console.log(vestingData);
+
   return (
     <Tabs>
       <TabList>

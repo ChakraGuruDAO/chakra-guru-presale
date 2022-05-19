@@ -1,14 +1,24 @@
-import { Box, Img, Text, HStack } from "@chakra-ui/react";
+import { Box, Img, Text, HStack, Link } from "@chakra-ui/react";
+import NextLink from "next/link";
 import { Karma } from "components/chakra";
 import { Chakra } from "components/karma";
 
 export const Logo = () => {
   return (
-    <HStack gap="12px" userSelect="none">
-      <Chakra />
-      <Text color="brand.100" fontSize="20px" fontWeight={400}>
-        Chakra Guru DAO
-      </Text>
-    </HStack>
+    <NextLink href="/" passHref>
+      <Link
+        style={{ textDecoration: "none" }}
+        _focus={{
+          boxShadow: "none",
+        }}
+      >
+        <HStack gap="12px" userSelect="none">
+          <Chakra />
+          <Text color="brand.300" fontSize="1.65rem" fontWeight={400}>
+            Chakra
+          </Text>
+        </HStack>
+      </Link>
+    </NextLink>
   );
 };
