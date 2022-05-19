@@ -3,8 +3,8 @@ import { StepsStyleConfig } from "chakra-ui-steps";
 
 export default extendTheme({
   fonts: {
-    body: "Inter, sans-serif",
-    heading: "Inter, sans-serif",
+    // body: "Inter, sans-serif",
+    // heading: "Inter, sans-serif",
   },
   colors: {
     brand: {
