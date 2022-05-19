@@ -6,38 +6,34 @@ export interface TimerProps extends React.ComponentProps<typeof HStack> {
   expireOn: Date;
 }
 
-const Divider = (
-  <Text
-    color="brand.100"
-    fontSize={{ xl: "64px", md: "32px", base: "32px" }}
-    lineHeight="100%"
-    fontWeight={500}
-    userSelect="none"
-    pb={{ xl: "45px", md: "30px", base: "40px" }}
-  >
-    :
-  </Text>
-);
-
 export const Timer: React.FC<TimerProps> = ({ expireOn, ...props }) => {
   const { days, hours, minutes, seconds } = useTimer({
     expiryTimestamp: expireOn,
   });
 
   return (
-    <HStack
-      width="100%"
-      alignItems="center"
-      spacing={{ xl: "5px", md: "10px", base: "auto" }}
-      {...props}
-    >
+    <HStack alignItems="center" justifyContent="center" {...props}>
       <TimerPart title="Day" value={days} />
-      {Divider}
+      <Divider />
       <TimerPart title="Hours" value={hours} />
-      {Divider}
+      <Divider />
       <TimerPart title="Minutes" value={minutes} />
-      {Divider}
+      <Divider />
       <TimerPart title="Seconds" value={seconds} />
     </HStack>
+  );
+};
+
+const Divider = () => {
+  return (
+    <Text
+      fontSize={{ base: "32px", md: "32px", xl: "64px" }}
+      lineHeight="100%"
+      fontWeight="medium"
+      userSelect="none"
+      pb={{ base: "32px", md: "30px", xl: "45px" }}
+    >
+      :
+    </Text>
   );
 };

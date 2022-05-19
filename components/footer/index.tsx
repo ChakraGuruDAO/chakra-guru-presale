@@ -93,7 +93,7 @@ export const Footer: React.FC<FooterProps> = ({
             target="_blank"
             href={mediumUrl}
             aria-label="Medium"
-            icon={<FaMedium fontSize="1.5rem" transform="" />}
+            icon={<FaMedium fontSize="1.5rem" />}
           />
         </ButtonGroup>
       </Flex>

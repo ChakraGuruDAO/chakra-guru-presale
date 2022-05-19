@@ -10,7 +10,7 @@ export const HeaderMenu: React.FC = () => {
           flexDirection={{ base: "column", md: "row" }}
           width={{ base: "full", md: "fit-content" }}
         >
-          <NextLink href="/presale" passHref>
+          <NextLink href="/" passHref>
             <Button as="a">Pre-Sale</Button>
           </NextLink>
 

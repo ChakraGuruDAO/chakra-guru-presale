@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
 import { StepsStyleConfig } from "chakra-ui-steps";
 
 import styles from "./styles";

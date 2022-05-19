@@ -1,4 +1,10 @@
-import { VStack, Box, Text } from "@chakra-ui/react";
+import {
+  VStack,
+  Box,
+  Text,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useMemo } from "react";
 
 export interface TimerPartProps {
@@ -11,22 +17,23 @@ export const TimerPart: React.FC<TimerPartProps> = ({ title, value }) => {
     () => (value >= 0 && value <= 9 ? `0${value}` : value),
     [value]
   );
+  const borderColor = useColorModeValue("dark", "brand2");
 
   return (
     <VStack spacing={{ base: "13px" }}>
       <Box
-        minW={{ xl: "120px", md: "51px", base: "71px" }}
-        minH={{ xl: "130px", md: "72px", base: "90px" }}
+        minW={{ base: "20", md: "20", xl: "28" }}
+        minH={{ base: "24", md: "24", xl: "24" }}
         display="flex"
         alignItems="center"
         justifyContent="center"
-        borderWidth="2px"
-        borderColor="brand.100"
-        borderRadius={{ xl: "20px", md: "12px", base: "12px" }}
+        borderWidth="1px"
+        borderColor={borderColor}
+        borderRadius={{ base: "12px", md: "12px", xl: "20px" }}
         textAlign="center"
       >
         <Text
-          fontSize={{ xl: "54px", md: "24px", base: "32px" }}
+          fontSize={{ base: "32px", md: "24px", xl: "54px" }}
           fontWeight={500}
           color="brand.100"
         >
@@ -34,10 +41,9 @@ export const TimerPart: React.FC<TimerPartProps> = ({ title, value }) => {
         </Text>
       </Box>
       <Text
-        fontSize={{ xl: "16px", md: "8px", base: "12px" }}
+        fontSize={{ base: "12px", md: "8px", xl: "16px" }}
         textTransform="uppercase"
-        fontWeight={500}
-        color="brand.100"
+        fontWeight="medium"
       >
         {title}
       </Text>

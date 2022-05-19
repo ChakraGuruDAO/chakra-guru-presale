@@ -8,7 +8,7 @@ export const Description: React.FC<PropsWithChildren<DescriptionProps>> = ({
   ...other
 }) => {
   return (
-    <Text color="gray.900" fontWeight="light" fontSize="lg" {...other}>
+    <Text fontSize="lg" {...other}>
       {children}
     </Text>
   );
