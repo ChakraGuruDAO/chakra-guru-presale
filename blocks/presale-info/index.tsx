@@ -204,7 +204,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
         <TabPanel>
           <SimpleGrid gap={5} columns={2}>
             <SimpleBlock>
-              <Table>
+              <Table variant="key-value">
                 <Tbody>
                   {saleInfoData.map(({ key, value }) => (
                     <Tr key={key}>
@@ -216,7 +216,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
               </Table>
             </SimpleBlock>
             <SimpleBlock>
-              <Table>
+              <Table variant="key-value">
                 <Thead>
                   <Tr>
                     <Th>Milestone</Th>
@@ -240,7 +240,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
             <Heading as="h1" fontSize="large">
               Token info
             </Heading>
-            <Table>
+            <Table variant="key-value">
               <Tbody>
                 {tokenInfoData.map(({ key, value }) => (
                   <Tr key={key}>
@@ -254,7 +254,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
         </TabPanel>
         <TabPanel>
           <SimpleBlock>
-            <Table>
+            <Table variant="key-value">
               <Tbody>
                 {claimInfoData.map(({ key, value }) => (
                   <Tr key={key}>

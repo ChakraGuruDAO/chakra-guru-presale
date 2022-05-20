@@ -1,15 +1,14 @@
 import { ComponentStyleConfig } from "@chakra-ui/react";
 
 const Accordion: ComponentStyleConfig = {
-  baseStyle: {
-    background: "yellow",
-    button: {
-      border: "1px solid yellow",
-    },
-  },
   variants: {
     block: {
       background: "yellow",
+      button: {
+        border: "1px solid yellow",
+        pl: 3,
+        pr: 3,
+      },
     },
   },
 };
