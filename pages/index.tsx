@@ -52,45 +52,45 @@ const PresalePage: NextPage = () => {
           { milestone: "Pre-Sale End", date: date },
           { milestone: "Claim Start", date: date },
         ]}
-        claimInfo={{
-          amountFrom: 100,
-          amountTo: 1000,
+        // claimInfo={{
+        //   amountFrom: 100,
+        //   amountTo: 1000,
 
-          vesting: [
-            {
-              id: 0,
-              vested: 0.1,
-              amount: 5.01,
-              unlockAt: date,
-              isClaimed: true,
-              canClaim: true,
-            },
-            {
-              id: 1,
-              vested: 0.1,
-              amount: 5.01,
-              unlockAt: date,
-              isClaimed: true,
-              canClaim: true,
-            },
-            {
-              id: 2,
-              vested: 0.1,
-              amount: 5.01,
-              unlockAt: date,
-              isClaimed: false,
-              canClaim: true,
-            },
-            {
-              id: 3,
-              vested: 0.1,
-              amount: 5.01,
-              unlockAt: date,
-              isClaimed: false,
-              canClaim: false,
-            },
-          ],
-        }}
+        //   vesting: [
+        //     {
+        //       id: 0,
+        //       vested: 0.1,
+        //       amount: 5.01,
+        //       unlockAt: date,
+        //       isClaimed: true,
+        //       canClaim: true,
+        //     },
+        //     {
+        //       id: 1,
+        //       vested: 0.1,
+        //       amount: 5.01,
+        //       unlockAt: date,
+        //       isClaimed: true,
+        //       canClaim: true,
+        //     },
+        //     {
+        //       id: 2,
+        //       vested: 0.1,
+        //       amount: 5.01,
+        //       unlockAt: date,
+        //       isClaimed: false,
+        //       canClaim: true,
+        //     },
+        //     {
+        //       id: 3,
+        //       vested: 0.1,
+        //       amount: 5.01,
+        //       unlockAt: date,
+        //       isClaimed: false,
+        //       canClaim: false,
+        //     },
+        //   ],
+        // }}
       />
       <Flex flex="1" flexDirection="column" alignItems="center">
         <HStack alignItems="center">

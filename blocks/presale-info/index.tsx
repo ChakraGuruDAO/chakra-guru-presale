@@ -198,7 +198,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
       <TabList>
         <Tab>Sale Information</Tab>
         <Tab>Token Information</Tab>
-        <Tab>Claim</Tab>
+        <Tab isDisabled={true}>Claim</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
