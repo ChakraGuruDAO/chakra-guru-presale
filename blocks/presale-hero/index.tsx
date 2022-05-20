@@ -88,11 +88,3 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
     </Flex>
   );
 };
-
-const KeyComponent: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-  return <Text>{children}</Text>;
-};
-
-const ValueComponent: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-  return <Text>{children}</Text>;
-};

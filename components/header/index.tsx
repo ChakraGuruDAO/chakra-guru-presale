@@ -18,10 +18,11 @@ import { HeaderMenu } from "../menu";
 import { ModeToggle } from "components/modeToggle";
 import { FaBars } from "react-icons/fa";
 import { useRef } from "react";
+import dynamic from "next/dynamic";
 
 export interface HeaderProps {}
 
-export const Header: React.FC<HeaderProps> = ({}) => {
+const _Header: React.FC<HeaderProps> = ({}) => {
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const [isOpen, { toggle, off }] = useBoolean();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -67,3 +68,5 @@ export const Header: React.FC<HeaderProps> = ({}) => {
     </Flex>
   );
 };
+
+export const Header = dynamic(async () => _Header, { ssr: false });

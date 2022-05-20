@@ -265,7 +265,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
               </Tbody>
             </Table>
             {vestingData ? (
-              <Accordion allowToggle={true}>
+              <Accordion allowToggle={true} variant="block">
                 <AccordionItem>
                   <AccordionButton>View your claims</AccordionButton>
                   <AccordionPanel pb={4}>
