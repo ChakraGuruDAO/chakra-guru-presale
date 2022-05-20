@@ -3,21 +3,21 @@ import NextLink from "next/link";
 
 export const HeaderMenu: React.FC = () => {
   return (
-    <>
-      <Flex>
-        <ButtonGroup
-          variant="ghost"
-          flexDirection={{ base: "column", md: "row" }}
-          width={{ base: "full", md: "fit-content" }}
-        >
-          <NextLink href="/" passHref>
-            <Button as="a">Pre-Sale</Button>
-          </NextLink>
+    <ButtonGroup
+      variant="ghost"
+      flexDirection={{ base: "column", lg: "row" }}
+      width={{ base: "full", lg: "fit-content" }}
+    >
+      <Button>
+        <NextLink href="/" passHref>
+          Pre-Sale
+        </NextLink>
+      </Button>
 
-          <Button disabled={true}>Overview</Button>
-          <Button disabled={true}>NFT</Button>
-        </ButtonGroup>
-      </Flex>
-    </>
+      <Button disabled={true}>Dashboard</Button>
+      <Button disabled={true}>Rewards</Button>
+      <Button disabled={true}>Staking</Button>
+      <Button disabled={true}>NFT</Button>
+    </ButtonGroup>
   );
 };

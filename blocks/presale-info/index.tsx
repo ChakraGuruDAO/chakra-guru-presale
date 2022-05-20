@@ -23,6 +23,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { ButtonConnect } from "components/buttonConnect";
 import { SimpleBlock } from "components/simpleBlock";
 import { Title } from "components/title";
 import dayjs from "dayjs";
@@ -283,7 +284,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
                           <Th>Amount</Th>
                           <Th>Portion Unlock At</Th>
                           <Th>
-                            <Button>Connect Wallet</Button>
+                            <ButtonConnect />
                           </Th>
                         </Tr>
                       </Thead>

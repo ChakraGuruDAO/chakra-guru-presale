@@ -38,11 +38,19 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
     <Flex flex={1} flexDirection="column">
       <Flex mb="10">
         <Box flex="1">
-          <HStack gap="12px" alignItems="center">
+          <Flex
+            gap={{ base: 1, md: 5 }}
+            alignItems="center"
+            justifyContent="center"
+            flexDirection={{ base: "column", md: "row" }}
+          >
             <Title>Pre-Sale</Title>
-            <Karma />
-            <Title>KARMA Tokens</Title>
-          </HStack>
+            <HStack spacing={4}>
+              <Title>KARMA</Title>
+              <Karma />
+              <Title>Tokens</Title>
+            </HStack>
+          </Flex>
         </Box>
       </Flex>
       <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 12, lg: 28 }}>

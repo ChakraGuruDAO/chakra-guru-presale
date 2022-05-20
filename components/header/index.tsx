@@ -23,7 +23,7 @@ import dynamic from "next/dynamic";
 export interface HeaderProps {}
 
 const _Header: React.FC<HeaderProps> = ({}) => {
-  const isDesktop = useBreakpointValue({ base: false, md: true });
+  const isDesktop = useBreakpointValue({ base: false, lg: true });
   const [isOpen, { toggle, off }] = useBoolean();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   return (

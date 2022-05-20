@@ -32,6 +32,7 @@ import {
   saleNetwork,
   vestingSchedule,
 } from "const";
+import { ButtonConnect } from "components/buttonConnect";
 const date = new Date(2023, 1, 1, 1, 1, 1, 0);
 
 const PresalePage: NextPage = () => {
@@ -127,7 +128,7 @@ const PresalePage: NextPage = () => {
                       First you need to install a Metamask Wallet. After that
                       you need to Connect it
                     </Text>
-                    <Button>Connect Wallet</Button>
+                    <ButtonConnect />
                   </VStack>
                 ),
               },
