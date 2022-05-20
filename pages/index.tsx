@@ -15,6 +15,23 @@ import { RoadmapComponent } from "components/steps";
 import { PresaleHero } from "blocks/presale-hero";
 import { PresaleInfo } from "blocks/presale-info";
 import { Karma } from "components/chakra";
+import {
+  tokenName,
+  tokenSymbol,
+  tokenDecimals,
+  totalSupply,
+  tokenAddress,
+  projectSite,
+  saleStartAt,
+  saleEndAt,
+  numberOfInvestors,
+  fromSymbol,
+  tokenPrice,
+  softCapToken,
+  hardCapToken,
+  saleNetwork,
+  vestingSchedule,
+} from "const";
 const date = new Date(2023, 1, 1, 1, 1, 1, 0);
 
 const PresalePage: NextPage = () => {
@@ -22,35 +39,36 @@ const PresalePage: NextPage = () => {
 
   return (
     <Flex flex="1" gap="60px" direction="column">
-      <PresaleHero status="waiting" expiresAt={date} />
+      <PresaleHero status="waiting" expiresAt={saleStartAt} />
       <PresaleInfo
         tokenInfo={{
-          tokenName: "KARMA Token",
-          tokenSymbol: "KARMA",
-          tokenLogo: <Karma />,
-          tokenDecimals: 20,
-          totalSupply: 1000,
-          tokenAddress: "0x00000000000000000000",
+          tokenName,
+          tokenSymbol,
+          tokenLogo: (
+            <Flex textAlign="right" justifyContent="flex-end">
+              <Karma />
+            </Flex>
+          ),
+          tokenDecimals,
+          totalSupply,
+          tokenAddress,
         }}
         saleInfo={{
-          projectSite: "https://chakra.guru/",
-          saleStartAt: date,
-          saleEndAt: date,
-          numberOfInvestors: 0,
-          fromSymbol: "BUSD",
-          tokenPrice: 0.2,
-          softCapToken: 1000000,
-          hardCapToken: 2000000,
-          saleNetwork: "BSC",
-          vestingSchedule: [
-            10, 0, 0, 0, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5,
-            7.5,
-          ],
+          projectSite,
+          saleStartAt,
+          saleEndAt,
+          numberOfInvestors,
+          fromSymbol,
+          tokenPrice,
+          softCapToken,
+          hardCapToken,
+          saleNetwork,
+          vestingSchedule,
         }}
         timeline={[
-          { milestone: "Pre-Sale Start", date: date },
-          { milestone: "Pre-Sale End", date: date },
-          { milestone: "Claim Start", date: date },
+          { milestone: "Pre-Sale Start", date: saleStartAt },
+          { milestone: "Pre-Sale End", date: saleEndAt },
+          { milestone: "Claim Start", date: saleEndAt },
         ]}
         claimInfo={{
           amountFrom: 100,

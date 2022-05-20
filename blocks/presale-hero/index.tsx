@@ -1,25 +1,29 @@
 import {
-  Container,
   Box,
-  Text,
   HStack,
   SimpleGrid,
   VStack,
   Flex,
-  Divider,
-  Progress,
   Button,
-  Icon,
 } from "@chakra-ui/react";
 import { Karma } from "components/chakra";
 import { Description } from "components/description";
 import { Metamask } from "components/metamask";
-import { SimpleBlock } from "components/simpleBlock";
 import { Timer } from "components/timer";
 import { Title } from "components/title";
-import React, { PropsWithChildren } from "react";
+import {
+  tokenName,
+  tokenSymbol,
+  tokenPrice,
+  saleStartAt,
+  saleEndAt,
+  fromSymbol,
+  softCapToken,
+  hardCapToken,
+} from "const";
+import React from "react";
 import { FaWallet } from "react-icons/fa";
-import { TicketBlock } from "./ticketBlock";
+import { TickerBlock } from "./tickerBlock";
 
 export interface PresaleHeroProps {
   status: "waiting" | "process" | "finished";
@@ -77,12 +81,15 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
             ) : null}
           </Box>
         </VStack>
-        <TicketBlock
-          tokenName="KARMA Token"
-          tokenSymbol="KARMA"
-          fromSymbol="BNB"
-          fromPrice={0.01}
-          usdPrice={0.01 * 312.321}
+        <TickerBlock
+          tokenName={tokenName}
+          tokenSymbol={tokenSymbol}
+          tokenPrice={tokenPrice}
+          fromSymbol={fromSymbol}
+          saleStartAt={saleStartAt}
+          saleEndAt={saleEndAt}
+          softCapToken={softCapToken}
+          hardCapToken={hardCapToken}
         />
       </SimpleGrid>
     </Flex>

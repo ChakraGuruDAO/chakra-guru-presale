@@ -7,6 +7,7 @@ import {
   Button,
   Checkbox,
   Heading,
+  Link,
   SimpleGrid,
   Tab,
   Table,
@@ -26,6 +27,7 @@ import { SimpleBlock } from "components/simpleBlock";
 import { Title } from "components/title";
 import dayjs from "dayjs";
 import dayjsRelativeTime from "dayjs/plugin/relativeTime";
+import NextLink from "next/link";
 import { useMemo } from "react";
 
 dayjs.extend(dayjsRelativeTime);
@@ -99,7 +101,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
       },
       {
         key: "Total Supply",
-        value: tokenInfo?.totalSupply,
+        value: tokenInfo?.totalSupply.toLocaleString("en-US"),
       },
       {
         key: "Token Address",
@@ -112,7 +114,11 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
     () => [
       {
         key: "Project Site",
-        value: saleInfo?.projectSite,
+        value: (
+          <NextLink href={saleInfo?.projectSite} passHref>
+            <Link isExternal={true}>{saleInfo?.projectSite}</Link>
+          </NextLink>
+        ),
       },
       {
         key: "Sale Start (Date)",
@@ -136,11 +142,11 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
       },
       {
         key: "Soft CAP",
-        value: saleInfo?.softCapToken,
+        value: saleInfo?.softCapToken.toLocaleString("en-US"),
       },
       {
         key: "Hard CAP",
-        value: saleInfo?.hardCapToken,
+        value: saleInfo?.hardCapToken.toLocaleString("en-US"),
       },
       {
         key: "Sale Network",
