@@ -202,7 +202,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
       </TabList>
       <TabPanels>
         <TabPanel>
-          <SimpleGrid gap={5} columns={2}>
+          <SimpleGrid gap={5} columns={{ base: 1, md: 2 }}>
             <SimpleBlock>
               <Table variant="key-value">
                 <Tbody>

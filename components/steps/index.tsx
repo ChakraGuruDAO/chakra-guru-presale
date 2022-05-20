@@ -7,7 +7,10 @@ import {
   HStack,
   Flex,
   Heading,
+  useBreakpointValue,
+  useColorModeValue,
 } from "@chakra-ui/react";
+import { FaCheck } from "react-icons/fa";
 import { SimpleBlock } from "components/simpleBlock";
 
 export interface RoadmapComponentProps {
@@ -38,10 +41,61 @@ const CheckIcon = createIcon({
 export const RoadmapComponent: React.FC<RoadmapComponentProps> = ({
   items,
 }) => {
+  const isDesktop = useBreakpointValue({ base: false, md: true });
+  const checkColor = useColorModeValue(
+    "var(--chakra-colors-brand2)",
+    "var(--chakra-colors-brand)"
+  );
+
+  if (!isDesktop)
+    return (
+      <VStack
+        position="relative"
+        gap={{ base: "30" }}
+        width="100%"
+        alignItems="stretch"
+        px={100}
+      >
+        {items.map((item) => {
+          return (
+            <VStack flex={1} key={item.key} justifyContent="stretch" zIndex={1}>
+              <Flex flex={1}>
+                <SimpleBlock key={item.key}>
+                  <VStack>
+                    <Heading size="md">{item.title}</Heading>
+                    <Box>{item.content}</Box>
+                  </VStack>
+                </SimpleBlock>
+              </Flex>
+              <Flex pt={30}>
+                <Box
+                  borderRadius="300px"
+                  border={`1px solid ${checkColor}`}
+                  px="16px"
+                  py="15px"
+                  background="white"
+                >
+                  <FaCheck size="1.25rem" color={checkColor} />
+                </Box>
+              </Flex>
+            </VStack>
+          );
+        })}
+        <Box
+          background="brand"
+          zIndex={0}
+          height="100%"
+          top={-2}
+          left="49.6%"
+          width="6px"
+          position="absolute"
+        />
+      </VStack>
+    );
   return (
     <VStack
       position="relative"
-      gap={{ base: "65px", md: undefined }}
+      gap={{ base: "30", md: undefined }}
       width="100%"
       alignItems="stretch"
       px={100}
@@ -58,18 +112,17 @@ export const RoadmapComponent: React.FC<RoadmapComponentProps> = ({
         );
 
         return (
-          <HStack flex={1} key={item.key} justifyContent="stretch">
+          <HStack flex={1} key={item.key} justifyContent="stretch" zIndex={1}>
             <Flex flex={1}>{!isLeft ? content : null}</Flex>
             <Flex px={5}>
               <Box
-                borderRadius="100px"
-                border="1px solid black"
-                px="15px"
-                py="10px"
-                zIndex={1}
+                borderRadius="300px"
+                border={`1px solid ${checkColor}`}
+                px="16px"
+                py="15px"
                 background="white"
               >
-                <CheckIcon />
+                <FaCheck size="1.25rem" color={checkColor} />
               </Box>
             </Flex>
             <Flex flex={1}>{isLeft ? content : null}</Flex>
@@ -77,7 +130,7 @@ export const RoadmapComponent: React.FC<RoadmapComponentProps> = ({
         );
       })}
       <Box
-        background="blue"
+        background="brand"
         zIndex={0}
         height="100%"
         left="49.8%"
