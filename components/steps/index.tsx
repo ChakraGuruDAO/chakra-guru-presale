@@ -9,9 +9,13 @@ import {
   Heading,
   useBreakpointValue,
   useColorModeValue,
+  useColorMode,
+  useTheme,
 } from "@chakra-ui/react";
+import { mode } from "@chakra-ui/theme-tools";
 import { FaCheck } from "react-icons/fa";
 import { SimpleBlock } from "components/simpleBlock";
+import dynamic from "next/dynamic";
 
 export interface RoadmapComponentProps {
   items: RoadmapItem[];
@@ -38,14 +42,14 @@ const CheckIcon = createIcon({
   ),
 });
 
-export const RoadmapComponent: React.FC<RoadmapComponentProps> = ({
-  items,
-}) => {
+const _RoadmapComponent: React.FC<RoadmapComponentProps> = ({ items }) => {
   const isDesktop = useBreakpointValue({ base: false, md: true });
+
   const checkColor = useColorModeValue(
-    "var(--chakra-colors-brand2)",
-    "var(--chakra-colors-brand)"
+    "var(--chakra-colors-blue-500)",
+    "var(--chakra-colors-pink-500)"
   );
+  console.log(checkColor);
 
   if (!isDesktop)
     return (
@@ -54,7 +58,7 @@ export const RoadmapComponent: React.FC<RoadmapComponentProps> = ({
         gap={{ base: "30" }}
         width="100%"
         alignItems="stretch"
-        px={100}
+        px={0}
       >
         {items.map((item) => {
           return (
@@ -82,7 +86,7 @@ export const RoadmapComponent: React.FC<RoadmapComponentProps> = ({
           );
         })}
         <Box
-          background="brand"
+          background={checkColor}
           zIndex={0}
           height="100%"
           top={-2}
@@ -130,7 +134,7 @@ export const RoadmapComponent: React.FC<RoadmapComponentProps> = ({
         );
       })}
       <Box
-        background="brand"
+        background={checkColor}
         zIndex={0}
         height="100%"
         left="49.8%"
@@ -141,3 +145,7 @@ export const RoadmapComponent: React.FC<RoadmapComponentProps> = ({
     </VStack>
   );
 };
+
+export const RoadmapComponent = dynamic(async () => _RoadmapComponent, {
+  ssr: false,
+});

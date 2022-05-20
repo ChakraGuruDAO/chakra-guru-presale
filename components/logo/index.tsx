@@ -14,8 +14,8 @@ export const Logo = () => {
       >
         <HStack gap="12px" userSelect="none">
           <Chakra />
-          <Text color="brand.300" fontSize="1.65rem" fontWeight={400}>
-            Chakra
+          <Text color="blue.400" fontSize="1.5rem" fontWeight={400}>
+            Chakra Guru DAO
           </Text>
         </HStack>
       </Link>

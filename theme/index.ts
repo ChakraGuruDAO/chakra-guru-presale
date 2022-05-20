@@ -8,10 +8,6 @@ import config from "./config";
 
 const theme = extendTheme({
   config,
-  fonts: {
-    // body: "Inter, sans-serif",
-    // heading: "Inter, sans-serif",
-  },
   styles,
   colors,
   components,
