@@ -112,9 +112,9 @@ const PresalePage: NextPage = () => {
         }}
       />
       <Flex flex="1" flexDirection="column" alignItems="center">
-        <HStack alignItems="center" mb={6}>
+        <HStack alignItems="center" mb={{ base: 6, sm: 0 }}>
           <Heading textAlign="center">
-            How to take part in the <Heading color="blue">pre-sale</Heading>
+            How to take part in the <Text color={"blue.400"}>pre-sale</Text>
           </Heading>
         </HStack>
         <Box mt={{ base: 0, sm: 20 }}>

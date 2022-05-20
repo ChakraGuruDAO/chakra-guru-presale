@@ -12,17 +12,7 @@ export default class Document extends NextDocument {
         <Head />
         <body>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-          <Flex
-            // background="url(/bg.png) no-repeat 50% fixed"
-            backgroundSize="cover"
-            height="100vh"
-            flexDirection={"column"}
-            justifyContent={"flex-start"}
-            overflowY="hidden"
-          >
-            <Main />
-          </Flex>
-
+          <Main />
           <NextScript />
         </body>
       </Html>
