@@ -31,6 +31,8 @@ import {
   hardCapToken,
   saleNetwork,
   vestingSchedule,
+  minFromPrice,
+  maxFromPrice,
 } from "const";
 import { ButtonConnect } from "components/buttonConnect";
 const date = new Date(2023, 1, 1, 1, 1, 1, 0);
@@ -65,6 +67,8 @@ const PresalePage: NextPage = () => {
           hardCapToken,
           saleNetwork,
           vestingSchedule,
+          minFromPrice,
+          maxFromPrice,
         }}
         timeline={[
           { milestone: "Pre-Sale Start", date: saleStartAt },

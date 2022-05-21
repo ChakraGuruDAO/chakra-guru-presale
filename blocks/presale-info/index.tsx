@@ -142,7 +142,11 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
       },
       {
         key: <Box minW={{ base: 0, lg: 56 }}>One Person limit (min - max)</Box>,
-        value: `200 ${saleInfo.fromSymbol} - 10,000 ${saleInfo.fromSymbol}`,
+        value: `${saleInfo.minFromPrice.toLocaleString("en-US")} ${
+          saleInfo.fromSymbol
+        } - ${saleInfo.maxFromPrice.toLocaleString("en-US")} ${
+          saleInfo.fromSymbol
+        }`,
       },
       {
         key: <Box minW={{ base: 0, lg: 56 }}>Soft CAP (Min Raise)</Box>,
