@@ -4,6 +4,7 @@ import {
   AccordionButton,
   AccordionItem,
   AccordionPanel,
+  Box,
   Button,
   Checkbox,
   Heading,
@@ -51,6 +52,8 @@ export interface PresaleInfoProps {
     vestingSchedule: number[];
     saleStartAt: Date;
     saleEndAt: Date;
+    minFromPrice: number;
+    maxFromPrice: number;
   };
   timeline?: { milestone: string; date: Date }[];
   tokenInfo?: {
@@ -129,24 +132,24 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
         key: "Sale End (Date)",
         value: dayjs(saleInfo?.saleEndAt).format("dddd, MMMM D, YYYY h:mm A"),
       },
-      {
-        key: "Number of Registrations",
-        value: saleInfo?.numberOfInvestors,
-      },
-      {
-        key: "From Symbol",
-        value: saleInfo?.fromSymbol,
-      },
+      // {
+      //   key: "Number of Registrations",
+      //   value: saleInfo?.numberOfInvestors,
+      // },
       {
         key: "Token Price",
-        value: saleInfo?.tokenPrice,
+        value: `${saleInfo?.tokenPrice} ${saleInfo?.fromSymbol} / 1 ${tokenInfo?.tokenSymbol}`,
       },
       {
-        key: "Soft CAP",
+        key: <Box minW={{ base: 0, lg: 56 }}>One Person limit (min - max)</Box>,
+        value: `200 ${saleInfo.fromSymbol} - 10,000 ${saleInfo.fromSymbol}`,
+      },
+      {
+        key: <Box minW={{ base: 0, lg: 56 }}>Soft CAP (Min Raise)</Box>,
         value: saleInfo?.softCapToken.toLocaleString("en-US"),
       },
       {
-        key: "Hard CAP",
+        key: <Box minW={{ base: 0, lg: 56 }}>Hard CAP (Max Raise)</Box>,
         value: saleInfo?.hardCapToken.toLocaleString("en-US"),
       },
       {
@@ -158,7 +161,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
         value: getVestingString(saleInfo?.vestingSchedule),
       },
     ],
-    [saleInfo]
+    [tokenInfo, saleInfo]
   );
   const claimInfoData = useMemo(
     () => [
@@ -213,8 +216,8 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
             <SimpleBlock>
               <Table variant="key-value">
                 <Tbody>
-                  {saleInfoData.map(({ key, value }) => (
-                    <Tr key={key}>
+                  {saleInfoData.map(({ key, value }, index) => (
+                    <Tr key={index}>
                       <Td>{key}</Td>
                       <Td>{value}</Td>
                     </Tr>
