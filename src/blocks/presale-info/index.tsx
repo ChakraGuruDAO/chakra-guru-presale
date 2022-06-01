@@ -40,6 +40,7 @@ export interface PresaleInfoTab {
 }
 
 export interface PresaleInfoProps {
+  status: "waiting" | "process" | "finished";
   saleInfo?: {
     projectSite: string;
     fromSymbol: string;
@@ -80,17 +81,8 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
   saleInfo,
   timeline,
   claimInfo,
+  status,
 }) => {
-  const status = useMemo<"waiting" | "process" | "finished">(() => {
-    const now = Date.now();
-    return now < +saleInfo.saleStartAt
-      ? "waiting"
-      : now >= +saleInfo.saleEndAt
-      ? "finished"
-      : "process";
-  }, [saleInfo]);
-  console.log(status);
-
   const tokenInfoData = useMemo(
     () => [
       {
@@ -236,7 +228,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
       <TabList>
         <Tab>Sale Information</Tab>
         <Tab>Token Information</Tab>
-        <Tab isDisabled={status !== "finished"}>Claim</Tab>
+        <Tab>Claim</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>

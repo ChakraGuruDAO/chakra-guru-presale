@@ -83,6 +83,14 @@ export function useTokenSaleInfo() {
     defaultValue: BigNumber.from(0),
   });
 
+  const saleBalance = useContractGetterParse({
+    contract: contracts?.karmaPrivateCrowdsale,
+    functionName: "getSaleTokenBalance",
+    args: [],
+    parser: parseBigNumberDivFloat(decimals),
+    defaultValue: BigNumber.from(0),
+  });
+
   const saleNetwork = "BSC";
 
   return {
@@ -96,5 +104,6 @@ export function useTokenSaleInfo() {
     raiseTokenAddress,
     karmaPrivateCrowdsaleAddress,
     contribution,
+    saleBalance,
   };
 }

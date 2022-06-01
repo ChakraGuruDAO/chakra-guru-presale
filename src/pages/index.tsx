@@ -1,41 +1,16 @@
 import { NextPage } from "next";
-import { BigNumber, ethers, utils } from "ethers";
-import { Contract } from "@ethersproject/contracts";
 import { Dashboard } from "src/layouts/dashboard";
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Heading,
-  HStack,
-  Text,
-  useColorMode,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import { RoadmapComponent } from "src/components/steps";
 import { PresaleHero } from "src/blocks/presale-hero";
 import { PresaleInfo } from "src/blocks/presale-info";
 import { Karma } from "src/components/chakra";
 
 import { ButtonConnect } from "src/components/buttonConnect";
-import {
-  useContracts,
-  useAllData,
-  useTokenInfo,
-  useVestingInfo,
-  useTokenSaleInfo,
-  useContractFunction,
-} from "src/logic";
-const date = new Date(2023, 1, 1, 1, 1, 1, 0);
+import { useTokenInfo, useVestingInfo, useTokenSaleInfo } from "src/logic";
+import { useEffect, useMemo, useState } from "react";
 
 const PresalePage: NextPage = () => {
-  const { contracts } = useAllData();
-
-  const { data } = useContractFunction(
-    contracts?.karmaPrivateCrowdsale,
-    "getRate"
-  );
   const {
     tokenAddress,
     decimals,
@@ -51,16 +26,41 @@ const PresalePage: NextPage = () => {
     saleCap,
     saleLimit,
     saleNetwork,
-
+    saleBalance,
     rate,
     raiseTokenSymbol,
     contribution,
   } = useTokenSaleInfo();
 
   const { vestingInfo, zeroDate, vestingMap } = useVestingInfo();
+
+  const [status, setStatus] = useState<"waiting" | "process" | "finished">(
+    "waiting"
+  );
+
+  useEffect(() => {
+    const checkStatus = () => {
+      const now = Date.now();
+      const _status =
+        now < +openingTime
+          ? "waiting"
+          : now >= +closingTime
+          ? "finished"
+          : "process";
+      setStatus(_status);
+    };
+
+    checkStatus();
+
+    const timer = setInterval(() => checkStatus(), 1000);
+    return () => clearInterval(timer);
+  }, [openingTime, closingTime]);
+
   return (
     <Flex flex="1" gap="60px" direction="column">
       <PresaleHero
+        status={status}
+        saleBalance={saleBalance}
         tokenAddress={tokenAddress}
         decimals={decimals}
         tokenName={tokenName}
@@ -73,6 +73,7 @@ const PresalePage: NextPage = () => {
         hardCapToken={saleCap?.maxSaleCap}
       />
       <PresaleInfo
+        status={status}
         tokenInfo={{
           tokenName,
           tokenSymbol,

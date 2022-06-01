@@ -18,6 +18,7 @@ import { addToken, useAllData, useTokenInfo } from "src/logic";
 import { TickerBlock } from "./tickerBlock";
 
 export interface PresaleHeroProps {
+  status: "waiting" | "process" | "finished";
   tokenAddress: string;
   tokenName: string;
   tokenSymbol: string;
@@ -28,6 +29,7 @@ export interface PresaleHeroProps {
   softCapToken: BigNumber;
   hardCapToken: BigNumber;
   fromSymbol: string;
+  saleBalance: BigNumber;
 }
 
 export const PresaleHero: React.FC<PresaleHeroProps> = ({
@@ -41,16 +43,9 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
   saleStartAt,
   saleEndAt,
   fromSymbol,
+  saleBalance,
+  status,
 }) => {
-  const status = useMemo<"waiting" | "process" | "finished">(() => {
-    const now = Date.now();
-    return now < +saleStartAt
-      ? "waiting"
-      : now >= +saleEndAt
-      ? "finished"
-      : "process";
-  }, [saleStartAt, saleEndAt]);
-
   const { provider } = useAllData();
 
   const onClickAddToken = () => {
@@ -114,6 +109,8 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
           </Box>
         </VStack>
         <TickerBlock
+          status={status}
+          saleBalance={saleBalance}
           tokenName={tokenName}
           tokenSymbol={tokenSymbol}
           rate={rate}
