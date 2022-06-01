@@ -1,7 +1,7 @@
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 import { useMemo } from "react";
-import { createContracts, addressesChainList } from "../contracts";
+import { createContracts, addressesChainList } from "src/logic/contracts";
 import { useChainId } from "./useChainId";
 import { useSigner } from "./useSigner";
 

@@ -1,5 +1,4 @@
 import { useWeb3React } from "@web3-react/core";
-import { useWeb3ReactManager } from "@web3-react/core/dist/manager";
 import { useMemo } from "react";
 
 export function useChainId() {

@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { ethers, utils } from "ethers";
+import { BigNumber, ethers, utils } from "ethers";
 import { Contract } from "@ethersproject/contracts";
 import { Dashboard } from "src/layouts/dashboard";
 import {
@@ -17,19 +17,7 @@ import { RoadmapComponent } from "src/components/steps";
 import { PresaleHero } from "src/blocks/presale-hero";
 import { PresaleInfo } from "src/blocks/presale-info";
 import { Karma } from "src/components/chakra";
-import {
-  projectSite,
-  softCapToken,
-  hardCapToken,
-  saleNetwork,
-  vestingSchedule,
-  minFromPrice,
-  maxFromPrice,
-  tokenPrice,
-  fromSymbol,
-  tokenName,
-  tokenSymbol,
-} from "src/const";
+
 import { ButtonConnect } from "src/components/buttonConnect";
 import {
   useContracts,
@@ -37,25 +25,48 @@ import {
   useTokenInfo,
   useVestingInfo,
   useTokenSaleInfo,
+  useContractFunction,
 } from "src/logic";
 const date = new Date(2023, 1, 1, 1, 1, 1, 0);
 
 const PresalePage: NextPage = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
   const { contracts } = useAllData();
-  const { tokenAddress, tokenDecimals, totalSupply } = useTokenInfo();
 
-  const { openingTime, closingTime, raiseSymbol } = useTokenSaleInfo();
+  const { data } = useContractFunction(
+    contracts?.karmaPrivateCrowdsale,
+    "getRate"
+  );
+  const {
+    tokenAddress,
+    decimals,
+    totalSupply,
+    tokenName,
+    tokenSymbol,
+    projectSite,
+  } = useTokenInfo();
 
-  const { vestingZeroDate } = useVestingInfo();
+  const {
+    openingTime,
+    closingTime,
+    softCapToken,
+    hardCapToken,
+    saleNetwork,
+
+    minFromPrice,
+    maxFromPrice,
+    tokenPrice,
+    raiseToken,
+  } = useTokenSaleInfo();
+
+  const { vestingSchedule } = useVestingInfo();
   return (
     <Flex flex="1" gap="60px" direction="column">
       <PresaleHero
         tokenName={tokenName}
         tokenSymbol={tokenSymbol}
         status="process"
-        expiresAt={openingTime}
-        fromSymbol={fromSymbol}
+        expiresAt={new Date()}
+        fromSymbol={raiseToken}
         saleStartAt={openingTime}
         saleEndAt={closingTime}
         tokenPrice={tokenPrice}
@@ -71,15 +82,15 @@ const PresalePage: NextPage = () => {
               <Karma />
             </Flex>
           ),
-          tokenDecimals,
-          totalSupply,
+          tokenDecimals: decimals,
+          totalSupply: totalSupply,
           tokenAddress,
         }}
         saleInfo={{
           projectSite,
           saleStartAt: openingTime,
           saleEndAt: closingTime,
-          fromSymbol: raiseSymbol,
+          fromSymbol: "",
           tokenPrice,
           softCapToken,
           hardCapToken,
@@ -91,7 +102,7 @@ const PresalePage: NextPage = () => {
         timeline={[
           { milestone: "Pre-Sale Start", date: openingTime },
           { milestone: "Pre-Sale End", date: closingTime },
-          { milestone: "Claim Start", date: vestingZeroDate },
+          { milestone: "Claim Start", date: new Date() },
         ]}
         claimInfo={{
           amountFrom: 100,
