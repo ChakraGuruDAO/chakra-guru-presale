@@ -28,33 +28,6 @@ import React, { useCallback, useMemo, useState } from "react";
 import { FaWallet } from "react-icons/fa";
 import { BigNumber } from "ethers";
 
-// function useRaiseTokenInfo() {
-//   const { contracts } = useContracts();
-//   const { raiseToken } = useTokenSaleInfo();
-
-//   const [loading, setLoading] = useState(BigNumber.from(0));
-//   const [allowance, setAllowance] = useState(BigNumber.from(0));
-
-//   const load = useCallback(async () => {
-//     const raiseTokenERC20 = contracts.ERC20(raiseToken);
-
-//     const allowance = await raiseTokenERC20.allowance(
-//       account,
-//       contracts.karmaPrivateCrowdsale.address
-//     );
-
-//     setAllowance(allowance);
-//   }, [account, contracts, raiseToken]);
-
-//   useEffect(() => {
-//     if (isReady && raiseToken) {
-//       load();
-//     }
-//   }, [isReady, load, raiseToken]);
-
-//   return { allowance };
-// }
-
 export const Invest: React.FC<{}> = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -127,8 +100,8 @@ export const Invest: React.FC<{}> = () => {
                   <NumberInput
                     flex={1}
                     value={amount.toNumber()}
-                    min={100}
-                    max={10000}
+                    min={0}
+                    max={100000}
                     onChange={(str: string, num: number) =>
                       setAmount(BigNumber.from(num || 0))
                     }
@@ -163,6 +136,7 @@ export const Invest: React.FC<{}> = () => {
                   width="full"
                   onClick={onBuy}
                   disabled={balance.lt(amount)}
+                  colorScheme="blue"
                 >
                   {balance.lt(amount) ? "Not enough money" : "Buy tokens"}
                 </Button>

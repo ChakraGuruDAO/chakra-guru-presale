@@ -141,9 +141,9 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
       {
         key: <Box minW={{ base: 0, lg: 56 }}>One Person limit (min - max)</Box>,
         value: `${saleInfo.minFromPrice.toNumber().toLocaleString("en-US")} ${
-          saleInfo.fromSymbol
+          tokenInfo.tokenSymbol
         } - ${saleInfo.maxFromPrice.toNumber().toLocaleString("en-US")} ${
-          saleInfo.fromSymbol
+          tokenInfo.tokenSymbol
         }`,
       },
       {
