@@ -6,21 +6,13 @@ import {
   Flex,
   Button,
 } from "@chakra-ui/react";
+import { Invest } from "blocks/invest";
 import { Karma } from "components/chakra";
 import { Description } from "components/description";
 import { Metamask } from "components/metamask";
 import { Timer } from "components/timer";
 import { Title } from "components/title";
-import {
-  tokenName,
-  tokenSymbol,
-  tokenPrice,
-  saleStartAt,
-  saleEndAt,
-  fromSymbol,
-  softCapToken,
-  hardCapToken,
-} from "const";
+import {} from "const";
 import React from "react";
 import { FaWallet } from "react-icons/fa";
 import { TickerBlock } from "./tickerBlock";
@@ -28,11 +20,27 @@ import { TickerBlock } from "./tickerBlock";
 export interface PresaleHeroProps {
   status: "waiting" | "process" | "finished";
   expiresAt: Date;
+  tokenName: string;
+  tokenSymbol: string;
+  saleStartAt: Date;
+  saleEndAt: Date;
+  tokenPrice: number;
+  softCapToken: number;
+  hardCapToken: number;
+  fromSymbol: string;
 }
 
 export const PresaleHero: React.FC<PresaleHeroProps> = ({
   status,
   expiresAt,
+  tokenName,
+  tokenSymbol,
+  tokenPrice,
+  softCapToken,
+  hardCapToken,
+  saleStartAt,
+  saleEndAt,
+  fromSymbol,
 }) => {
   return (
     <Flex flex={1} flexDirection="column">
@@ -71,13 +79,7 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
             {status === "waiting" ? (
               <Timer expireOn={expiresAt} />
             ) : status === "process" ? (
-              <Button
-                size="lg"
-                leftIcon={<FaWallet size="20px" />}
-                alignItems="center"
-              >
-                Buy KARMA Tokens
-              </Button>
+              <Invest />
             ) : status === "finished" ? (
               <Button
                 size="lg"

@@ -1,8 +1,5 @@
 import {
-  Box,
   Button,
-  ButtonProps,
-  Icon,
   Img,
   Modal,
   ModalBody,
@@ -12,36 +9,22 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useWeb3React } from "@web3-react/core";
-import { Web3Provider } from "@ethersproject/providers";
-import { connectors } from "logic/connectors";
-import { useEffect } from "react";
+import React from "react";
+import { FaWallet } from "react-icons/fa";
 
-export interface ButtonConnectProps extends ButtonProps {}
-
-export const ButtonConnect: React.FC<ButtonConnectProps> = (props) => {
-  const { chainId, account, activate, active, library, deactivate } =
-    useWeb3React<Web3Provider>();
-  const { onOpen, isOpen, onClose } = useDisclosure();
-
-  useEffect(() => {
-    activate(connectors.injected);
-  }, [activate]);
-
+export const Invest: React.FC<{}> = () => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
   return (
     <>
-      <Box
-        order={[-1, null, null, 2]}
-        textAlign={["left", null, null, "right"]}
+      <Button
+        size="lg"
+        leftIcon={<FaWallet size="20px" />}
+        onClick={onOpen}
+        alignItems="center"
       >
-        {account ? (
-          <Button onClick={deactivate}>Disconnect</Button>
-        ) : (
-          <Button colorScheme="teal" variant="outline" onClick={onOpen}>
-            Connect to a wallet
-          </Button>
-        )}
-      </Box>
+        Buy KARMA Tokens
+      </Button>
+
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -57,14 +40,7 @@ export const ButtonConnect: React.FC<ButtonConnectProps> = (props) => {
               rightIcon={
                 <Img maxWidth="20px" src="/logo-metamask.png" alt="MetaMask" />
               }
-              onClick={async () => {
-                try {
-                  await activate(connectors.injected);
-                  onClose();
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
+              onClick={async () => {}}
             >
               MetaMask
             </Button>
@@ -82,12 +58,7 @@ export const ButtonConnect: React.FC<ButtonConnectProps> = (props) => {
                   alt="WalletConnect"
                 />
               }
-              onClick={async () => {
-                try {
-                  await activate(connectors.walletConnect);
-                  onClose();
-                } catch (err) {}
-              }}
+              onClick={async () => {}}
             >
               WalletConnect (Soon)
             </Button>
@@ -105,12 +76,7 @@ export const ButtonConnect: React.FC<ButtonConnectProps> = (props) => {
                   alt="Coinbase Wallet"
                 />
               }
-              onClick={async () => {
-                try {
-                  await activate(connectors.walletLink);
-                  onClose();
-                } catch (err) {}
-              }}
+              onClick={async () => {}}
             >
               Coinbase Wallet (Soon)
             </Button>

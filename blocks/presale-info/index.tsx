@@ -43,7 +43,6 @@ export interface PresaleInfoTab {
 export interface PresaleInfoProps {
   saleInfo?: {
     projectSite: string;
-    numberOfInvestors: number;
     fromSymbol: string;
     tokenPrice: number;
     softCapToken: number;

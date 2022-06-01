@@ -18,38 +18,46 @@ import { PresaleHero } from "blocks/presale-hero";
 import { PresaleInfo } from "blocks/presale-info";
 import { Karma } from "components/chakra";
 import {
-  tokenName,
-  tokenSymbol,
-  tokenDecimals,
-  totalSupply,
-  tokenAddress,
   projectSite,
-  saleStartAt,
-  saleEndAt,
-  numberOfInvestors,
-  fromSymbol,
-  tokenPrice,
   softCapToken,
   hardCapToken,
   saleNetwork,
   vestingSchedule,
   minFromPrice,
   maxFromPrice,
+  tokenPrice,
+  fromSymbol,
 } from "const";
 import { ButtonConnect } from "components/buttonConnect";
 import { useContracts } from "logic";
+import { useTokenInfo } from "logic/useTokenInfo";
+import { useTokenSaleInfo } from "logic/useTokenSaleInfo";
+import { useVestingInfo } from "logic/useVestingInfo";
 const date = new Date(2023, 1, 1, 1, 1, 1, 0);
 
 const PresalePage: NextPage = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isReady, contracts } = useContracts();
-  console.log("isReady", isReady);
-  if (isReady)
-    contracts.karmaToken.totalSupply().then((data) => console.log(data));
+  const { tokenName, tokenAddress, tokenDecimals, tokenSymbol, totalSupply } =
+    useTokenInfo();
 
+  const { openingTime, closingTime, raiseSymbol } = useTokenSaleInfo();
+
+  const { vestingZeroDate } = useVestingInfo();
   return (
     <Flex flex="1" gap="60px" direction="column">
-      <PresaleHero status="waiting" expiresAt={saleStartAt} />
+      <PresaleHero
+        tokenName={tokenName}
+        tokenSymbol={tokenSymbol}
+        status="process"
+        expiresAt={openingTime}
+        fromSymbol={fromSymbol}
+        saleStartAt={openingTime}
+        saleEndAt={closingTime}
+        tokenPrice={tokenPrice}
+        softCapToken={softCapToken}
+        hardCapToken={hardCapToken}
+      />
       <PresaleInfo
         tokenInfo={{
           tokenName,
@@ -65,10 +73,9 @@ const PresalePage: NextPage = () => {
         }}
         saleInfo={{
           projectSite,
-          saleStartAt,
-          saleEndAt,
-          numberOfInvestors,
-          fromSymbol,
+          saleStartAt: openingTime,
+          saleEndAt: closingTime,
+          fromSymbol: raiseSymbol,
           tokenPrice,
           softCapToken,
           hardCapToken,
@@ -78,9 +85,9 @@ const PresalePage: NextPage = () => {
           maxFromPrice,
         }}
         timeline={[
-          { milestone: "Pre-Sale Start", date: saleStartAt },
-          { milestone: "Pre-Sale End", date: saleEndAt },
-          { milestone: "Claim Start", date: saleEndAt },
+          { milestone: "Pre-Sale Start", date: openingTime },
+          { milestone: "Pre-Sale End", date: closingTime },
+          { milestone: "Claim Start", date: vestingZeroDate },
         ]}
         claimInfo={{
           amountFrom: 100,

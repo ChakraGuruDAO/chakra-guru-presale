@@ -1,6 +1,10 @@
 import { JsonRpcSigner } from "@ethersproject/providers";
 import { Contract } from "ethers";
 import {
+  ERC20,
+  ERC20__factory,
+  IERC20,
+  IERC20__factory,
   KarmaPrivateCrowdsale,
   KarmaPrivateCrowdsale__factory,
   KarmaPrivateSaleVestingVault,
@@ -33,9 +37,13 @@ export function createContracts(
     signer
   ) as KarmaPrivateCrowdsale;
 
+  const ERC20 = (address: string) =>
+    new Contract(address, ERC20__factory.abi, signer) as ERC20;
+
   return {
     karmaToken,
     karmaPrivateCrowdsale,
     karmaPrivateSaleVestingVault,
+    ERC20,
   };
 }
