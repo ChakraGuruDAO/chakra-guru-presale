@@ -91,6 +91,13 @@ export function useTokenSaleInfo() {
     defaultValue: BigNumber.from(0),
   });
 
+  const isFinished = useContractGetterParse({
+    contract: contracts?.karmaPrivateCrowdsale,
+    functionName: "isFinished",
+    args: [],
+    defaultValue: false,
+  });
+
   const saleNetwork = "BSC";
 
   return {
@@ -105,5 +112,6 @@ export function useTokenSaleInfo() {
     karmaPrivateCrowdsaleAddress,
     contribution,
     saleBalance,
+    isFinished,
   };
 }

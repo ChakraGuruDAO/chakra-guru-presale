@@ -30,6 +30,7 @@ const PresalePage: NextPage = () => {
     rate,
     raiseTokenSymbol,
     contribution,
+    isFinished,
   } = useTokenSaleInfo();
 
   const { vestingInfo, zeroDate, vestingMap } = useVestingInfo();
@@ -42,11 +43,7 @@ const PresalePage: NextPage = () => {
     const checkStatus = () => {
       const now = Date.now();
       const _status =
-        now < +openingTime
-          ? "waiting"
-          : now >= +closingTime
-          ? "finished"
-          : "process";
+        now < +openingTime ? "waiting" : isFinished ? "finished" : "process";
       setStatus(_status);
     };
 
@@ -54,7 +51,7 @@ const PresalePage: NextPage = () => {
 
     const timer = setInterval(() => checkStatus(), 1000);
     return () => clearInterval(timer);
-  }, [openingTime, closingTime]);
+  }, [openingTime, closingTime, isFinished]);
 
   return (
     <Flex flex="1" gap="60px" direction="column">

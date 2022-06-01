@@ -99,7 +99,7 @@ export const Invest: React.FC<{}> = () => {
       await contracts?.karmaPrivateCrowdsale.buyTokens(
         account,
         BigNumber.from(amount).mul(BigNumber.from(10).pow(18)),
-        { gasLimit: 10000000 }
+        { gasLimit: 1000000 }
       );
     }
   }, [contracts, amount, account]);
