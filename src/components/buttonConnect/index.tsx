@@ -26,22 +26,17 @@ export const ButtonConnect: React.FC<ButtonConnectProps> = (props) => {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const toast = useToast();
 
-  console.log(chainId);
   const onConnect = useCallback(async () => {
-    try {
-      await activate(connectors.injected, (err) =>
-        toast({
-          title: "Error",
-          status: "error",
-          description: err.message,
-          position: "bottom-right",
-        })
-      );
+    await activate(connectors.injected, (err) =>
+      toast({
+        title: "Error",
+        status: "error",
+        description: err.message,
+        position: "bottom-right",
+      })
+    );
 
-      onClose();
-    } catch (err) {
-      console.log(err);
-    }
+    onClose();
   }, [toast, onClose, activate]);
 
   return (
