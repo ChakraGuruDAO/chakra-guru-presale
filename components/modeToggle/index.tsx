@@ -3,7 +3,6 @@ import { FaSun, FaMoon } from "react-icons/fa";
 
 export const ModeToggle = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  console.log("clock");
   return (
     <IconButton
       onClick={toggleColorMode}

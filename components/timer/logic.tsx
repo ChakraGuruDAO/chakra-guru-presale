@@ -7,7 +7,6 @@ export interface TimerProps extends React.ComponentProps<typeof HStack> {
 }
 
 export const Timer: React.FC<TimerProps> = ({ expireOn, ...props }) => {
-  console.log(window.outerHeight);
   const { days, hours, minutes, seconds } = useTimer({
     expiryTimestamp: expireOn,
   });

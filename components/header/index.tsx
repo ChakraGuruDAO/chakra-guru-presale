@@ -19,6 +19,7 @@ import { ModeToggle } from "components/modeToggle";
 import { FaBars } from "react-icons/fa";
 import { useRef } from "react";
 import dynamic from "next/dynamic";
+import { ProfileInfo } from "components/profileInfo";
 
 export interface HeaderProps {}
 
@@ -57,6 +58,7 @@ const _Header: React.FC<HeaderProps> = ({}) => {
               <DrawerBody>
                 <HeaderMenu />
                 <HStack gap={1}>
+                  <ProfileInfo />
                   <ButtonConnect width="100%" />
                   <ModeToggle />
                 </HStack>

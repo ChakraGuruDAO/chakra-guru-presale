@@ -49,7 +49,6 @@ const _RoadmapComponent: React.FC<RoadmapComponentProps> = ({ items }) => {
     "var(--chakra-colors-blue-500)",
     "var(--chakra-colors-pink-500)"
   );
-  console.log(checkColor);
 
   if (!isDesktop)
     return (
