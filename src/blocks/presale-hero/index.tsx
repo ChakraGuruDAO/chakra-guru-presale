@@ -6,7 +6,8 @@ import {
   Flex,
   Button,
 } from "@chakra-ui/react";
-import React from "react";
+import { BigNumber } from "ethers";
+import React, { useMemo } from "react";
 import { Invest } from "src/blocks/invest";
 import { Karma } from "src/components/chakra";
 import { Description } from "src/components/description";
@@ -16,30 +17,35 @@ import { Title } from "src/components/title";
 import { TickerBlock } from "./tickerBlock";
 
 export interface PresaleHeroProps {
-  status: "waiting" | "process" | "finished";
-  expiresAt: Date;
   tokenName: string;
   tokenSymbol: string;
   saleStartAt: Date;
   saleEndAt: Date;
-  tokenPrice: number;
-  softCapToken: number;
-  hardCapToken: number;
+  rate: BigNumber;
+  softCapToken: BigNumber;
+  hardCapToken: BigNumber;
   fromSymbol: string;
 }
 
 export const PresaleHero: React.FC<PresaleHeroProps> = ({
-  status,
-  expiresAt,
   tokenName,
   tokenSymbol,
-  tokenPrice,
+  rate,
   softCapToken,
   hardCapToken,
   saleStartAt,
   saleEndAt,
   fromSymbol,
 }) => {
+  const status = useMemo<"waiting" | "process" | "finished">(() => {
+    const now = Date.now();
+    return now < +saleStartAt
+      ? "waiting"
+      : now >= +saleEndAt
+      ? "finished"
+      : "process";
+  }, [saleStartAt, saleEndAt]);
+
   return (
     <Flex flex={1} flexDirection="column">
       <Flex mb="10">
@@ -75,7 +81,7 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
           </Description>
           <Box pt={4} width="full">
             {status === "waiting" ? (
-              <Timer expireOn={expiresAt} />
+              <Timer expireOn={saleStartAt} />
             ) : status === "process" ? (
               <Invest />
             ) : status === "finished" ? (
@@ -92,7 +98,7 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
         <TickerBlock
           tokenName={tokenName}
           tokenSymbol={tokenSymbol}
-          tokenPrice={tokenPrice}
+          rate={rate}
           fromSymbol={fromSymbol}
           saleStartAt={saleStartAt}
           saleEndAt={saleEndAt}

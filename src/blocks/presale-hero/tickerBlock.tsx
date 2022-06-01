@@ -9,25 +9,28 @@ import {
   Box,
   Flex,
 } from "@chakra-ui/react";
+import { BigNumber } from "ethers";
+
 import { SimpleBlock } from "src/components/simpleBlock";
 import dayjs from "dayjs";
 import React, { PropsWithChildren } from "react";
+import Decimal from "decimal.js";
 
 export interface TickerBlockProps {
   tokenName: string;
   tokenSymbol: string;
-  tokenPrice: number;
+  rate: BigNumber;
   fromSymbol: string;
   saleStartAt: Date;
   saleEndAt: Date;
-  softCapToken: number;
-  hardCapToken: number;
+  softCapToken: BigNumber;
+  hardCapToken: BigNumber;
 }
 
 export const TickerBlock: React.FC<TickerBlockProps> = ({
   tokenName,
   tokenSymbol,
-  tokenPrice,
+  rate,
   fromSymbol,
   saleStartAt,
   saleEndAt,
@@ -51,10 +54,18 @@ export const TickerBlock: React.FC<TickerBlockProps> = ({
           </HStack>
           <VStack textAlign="right" alignItems="flex-end" spacing={0}>
             <KeyValueComponent title="Price" type="right">
-              ${tokenPrice.toLocaleString("en-US")}
+              $
+              {new Decimal(1)
+                .div(rate?.toNumber() || 1)
+                .toNumber()
+                .toLocaleString("en-US")}
             </KeyValueComponent>
             <Text textAlign="right" fontSize={{ base: 12 }} fontWeight={400}>
-              {tokenPrice.toLocaleString("en-US")} {fromSymbol}
+              {new Decimal(1)
+                .div(rate?.toNumber() || 1)
+                .toNumber()
+                .toLocaleString("en-US")}{" "}
+              {fromSymbol}
             </Text>
           </VStack>
         </HStack>
@@ -79,14 +90,14 @@ export const TickerBlock: React.FC<TickerBlockProps> = ({
 
         <Flex flexDirection="row" justifyContent="space-between" width="100%">
           <KeyValueComponent title="Soft CAP" type="left">
-            {softCapToken.toLocaleString("en-US")}
+            {softCapToken.toNumber().toLocaleString("en-US")}
           </KeyValueComponent>
           <KeyValueComponent title="$ CAPS" type="center">
-            ${(softCapToken * tokenPrice).toLocaleString("en-US")} / $
-            {(hardCapToken * tokenPrice).toLocaleString("en-US")}
+            ${softCapToken.div(rate).toNumber().toLocaleString("en-US")} / $
+            {hardCapToken.div(rate).toNumber().toLocaleString("en-US")}
           </KeyValueComponent>
           <KeyValueComponent title="Hard CAP" type="right">
-            {hardCapToken.toLocaleString("en-US")}
+            {hardCapToken.toNumber().toLocaleString("en-US")}
           </KeyValueComponent>
         </Flex>
       </VStack>

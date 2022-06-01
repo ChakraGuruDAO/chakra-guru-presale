@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import dayjsRelativeTime from "dayjs/plugin/relativeTime";
 import NextLink from "next/link";
 import { useMemo } from "react";
+import { BigNumber } from "ethers";
 
 dayjs.extend(dayjsRelativeTime);
 
@@ -40,23 +41,23 @@ export interface PresaleInfoProps {
   saleInfo?: {
     projectSite: string;
     fromSymbol: string;
-    tokenPrice: number;
-    softCapToken: number;
-    hardCapToken: number;
+    rate: BigNumber;
+    softCapToken: BigNumber;
+    hardCapToken: BigNumber;
     saleNetwork: string;
     vestingSchedule: number[];
     saleStartAt: Date;
     saleEndAt: Date;
-    minFromPrice: number;
-    maxFromPrice: number;
+    minFromPrice: BigNumber;
+    maxFromPrice: BigNumber;
   };
   timeline?: { milestone: string; date: Date }[];
   tokenInfo?: {
     tokenName: string;
     tokenSymbol: string;
     tokenLogo: React.ReactNode;
-    tokenDecimals: number;
-    totalSupply: number;
+    tokenDecimals: BigNumber;
+    totalSupply: BigNumber;
     tokenAddress: string;
   };
   claimInfo?: {
@@ -96,11 +97,11 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
       },
       {
         key: "Token Decimals",
-        value: tokenInfo?.tokenDecimals,
+        value: tokenInfo?.tokenDecimals?.toNumber().toLocaleString("en-US"),
       },
       {
         key: "Total Supply",
-        value: tokenInfo?.totalSupply.toLocaleString("en-US"),
+        value: tokenInfo?.totalSupply?.toNumber().toLocaleString("en-US"),
       },
       {
         key: "Token Address",
@@ -133,23 +134,23 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
       // },
       {
         key: "Token Price",
-        value: `${saleInfo?.tokenPrice} ${saleInfo?.fromSymbol} / 1 ${tokenInfo?.tokenSymbol}`,
+        value: `1 ${saleInfo?.fromSymbol} / ${saleInfo?.rate} ${tokenInfo?.tokenSymbol}`,
       },
       {
         key: <Box minW={{ base: 0, lg: 56 }}>One Person limit (min - max)</Box>,
-        value: `${saleInfo.minFromPrice.toLocaleString("en-US")} ${
+        value: `${saleInfo.minFromPrice.toNumber().toLocaleString("en-US")} ${
           saleInfo.fromSymbol
-        } - ${saleInfo.maxFromPrice.toLocaleString("en-US")} ${
+        } - ${saleInfo.maxFromPrice.toNumber().toLocaleString("en-US")} ${
           saleInfo.fromSymbol
         }`,
       },
       {
         key: <Box minW={{ base: 0, lg: 56 }}>Soft CAP (Min Raise)</Box>,
-        value: saleInfo?.softCapToken.toLocaleString("en-US"),
+        value: saleInfo?.softCapToken.toNumber().toLocaleString("en-US"),
       },
       {
         key: <Box minW={{ base: 0, lg: 56 }}>Hard CAP (Max Raise)</Box>,
-        value: saleInfo?.hardCapToken.toLocaleString("en-US"),
+        value: saleInfo?.hardCapToken.toNumber().toLocaleString("en-US"),
       },
       {
         key: "Sale Network",

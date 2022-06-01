@@ -63,7 +63,7 @@ export const Invest: React.FC<{}> = () => {
     raiseTokenAddress,
     karmaPrivateCrowdsaleAddress,
     minFromPrice,
-    tokenPrice,
+    rate,
   } = useTokenSaleInfo();
   const [amount, setAmount] = useState(minFromPrice);
 
@@ -83,8 +83,8 @@ export const Invest: React.FC<{}> = () => {
   );
 
   const saleAmount = useMemo(
-    () => BigNumber.from(amount).mul(tokenPrice),
-    [amount, tokenPrice]
+    () => BigNumber.from(amount).mul(rate),
+    [amount, rate]
   );
 
   const onApprove = useCallback(async () => {
@@ -130,10 +130,12 @@ export const Invest: React.FC<{}> = () => {
                 <HStack width="full" justifyContent="space-between" gap={10}>
                   <NumberInput
                     flex={1}
-                    value={amount}
+                    value={amount.toNumber()}
                     min={100}
                     max={10000}
-                    onChange={(str: string, num: number) => setAmount(num || 0)}
+                    onChange={(str: string, num: number) =>
+                      setAmount(BigNumber.from(num || 0))
+                    }
                   >
                     <NumberInputField />
                     <NumberInputStepper>

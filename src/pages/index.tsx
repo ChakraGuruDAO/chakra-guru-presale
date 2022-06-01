@@ -54,7 +54,7 @@ const PresalePage: NextPage = () => {
 
     minFromPrice,
     maxFromPrice,
-    tokenPrice,
+    rate,
     raiseToken,
   } = useTokenSaleInfo();
 
@@ -64,12 +64,10 @@ const PresalePage: NextPage = () => {
       <PresaleHero
         tokenName={tokenName}
         tokenSymbol={tokenSymbol}
-        status="process"
-        expiresAt={new Date()}
         fromSymbol={raiseToken}
         saleStartAt={openingTime}
         saleEndAt={closingTime}
-        tokenPrice={tokenPrice}
+        rate={rate}
         softCapToken={softCapToken}
         hardCapToken={hardCapToken}
       />
@@ -90,8 +88,8 @@ const PresalePage: NextPage = () => {
           projectSite,
           saleStartAt: openingTime,
           saleEndAt: closingTime,
-          fromSymbol: "",
-          tokenPrice,
+          fromSymbol: raiseToken,
+          rate,
           softCapToken,
           hardCapToken,
           saleNetwork,
