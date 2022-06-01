@@ -48,28 +48,27 @@ const PresalePage: NextPage = () => {
   const {
     openingTime,
     closingTime,
-    softCapToken,
-    hardCapToken,
+    saleCap,
+    saleLimit,
     saleNetwork,
 
-    minFromPrice,
-    maxFromPrice,
     rate,
-    raiseToken,
+    raiseTokenSymbol,
+    contribution,
   } = useTokenSaleInfo();
 
-  const { vestingSchedule } = useVestingInfo();
+  const { vestingInfo, zeroDate, vestingMap } = useVestingInfo();
   return (
     <Flex flex="1" gap="60px" direction="column">
       <PresaleHero
         tokenName={tokenName}
         tokenSymbol={tokenSymbol}
-        fromSymbol={raiseToken}
+        fromSymbol={raiseTokenSymbol}
         saleStartAt={openingTime}
         saleEndAt={closingTime}
         rate={rate}
-        softCapToken={softCapToken}
-        hardCapToken={hardCapToken}
+        softCapToken={saleCap?.minSaleCap}
+        hardCapToken={saleCap?.maxSaleCap}
       />
       <PresaleInfo
         tokenInfo={{
@@ -88,58 +87,58 @@ const PresalePage: NextPage = () => {
           projectSite,
           saleStartAt: openingTime,
           saleEndAt: closingTime,
-          fromSymbol: raiseToken,
+          fromSymbol: raiseTokenSymbol,
           rate,
-          softCapToken,
-          hardCapToken,
+          softCapToken: saleCap?.minSaleCap,
+          hardCapToken: saleCap?.maxSaleCap,
           saleNetwork,
-          vestingSchedule,
-          minFromPrice,
-          maxFromPrice,
+
+          vestingPortionsUnlockTime: vestingInfo?.vestingPortionsUnlockTime,
+          vestingPercentPerPortion: vestingInfo?.vestingPercentPerPortion,
+          vestingPercentPrecision: vestingInfo?.vestingPercentPrecision,
+
+          minFromPrice: saleLimit?.minSaleLimit,
+          maxFromPrice: saleLimit?.maxSaleLimit,
         }}
         timeline={[
           { milestone: "Pre-Sale Start", date: openingTime },
           { milestone: "Pre-Sale End", date: closingTime },
-          { milestone: "Claim Start", date: new Date() },
+          { milestone: "Claim Start", date: zeroDate },
         ]}
         claimInfo={{
-          amountFrom: 100,
-          amountTo: 1000,
+          saleTokenAmount: contribution,
+          vestingMap: vestingMap,
 
-          vesting: [
-            {
-              id: 0,
-              vested: 0.1,
-              amount: 5.01,
-              unlockAt: date,
-              isClaimed: true,
-              canClaim: true,
-            },
-            {
-              id: 1,
-              vested: 0.1,
-              amount: 5.01,
-              unlockAt: date,
-              isClaimed: true,
-              canClaim: true,
-            },
-            {
-              id: 2,
-              vested: 0.1,
-              amount: 5.01,
-              unlockAt: date,
-              isClaimed: false,
-              canClaim: true,
-            },
-            {
-              id: 3,
-              vested: 0.1,
-              amount: 5.01,
-              unlockAt: date,
-              isClaimed: false,
-              canClaim: false,
-            },
-          ],
+          // vesting: [
+          //   {
+          //     vested: 0.1,
+          //     amount: 5.01,
+          //     unlockAt: date,
+          //     isClaimed: true,
+          //     canClaim: true,
+          //   },
+          //   {
+          //     vested: 0.1,
+          //     amount: 5.01,
+          //     unlockAt: date,
+          //     isClaimed: true,
+          //     canClaim: true,
+          //   },
+          //   {
+          //     vested: 0.1,
+          //     amount: 5.01,
+          //     unlockAt: date,
+          //     isClaimed: false,
+          //     canClaim: true,
+          //   },
+          //   {
+          //     vested: 0.1,
+          //     amount: 5.01,
+          //     unlockAt: date,
+          //     isClaimed: false,
+          //     canClaim: false,
+          //   },
+          // ],
         }}
       />
       <Flex flex="1" flexDirection="column" alignItems="center">

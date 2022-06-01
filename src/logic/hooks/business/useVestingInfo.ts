@@ -1,12 +1,16 @@
+import { BigNumber } from "ethers";
 import { useAllData, useContractGetterParse } from "../service";
 import {
   parseArray,
+  parseBigNumberDivFloat,
   parseBigNumberToDate,
   parseBigNumberToNumber,
 } from "./parsers";
+import { useTokenInfo } from "./useTokenInfo";
 
 export function useVestingInfo() {
-  const { contracts } = useAllData();
+  const { contracts, account } = useAllData();
+  const { decimals } = useTokenInfo();
 
   const vestingInfo = useContractGetterParse({
     contract: contracts?.karmaPrivateSaleVestingVault,
@@ -24,6 +28,11 @@ export function useVestingInfo() {
           data.vestingPercentPrecision
         ),
       },
+    defaultValue: {
+      vestingPortionsUnlockTime: [],
+      vestingPercentPerPortion: [],
+      vestingPercentPrecision: 100,
+    },
   });
 
   const zeroDate = useContractGetterParse({
@@ -34,13 +43,26 @@ export function useVestingInfo() {
     defaultValue: new Date(),
   });
 
-  const vestingSchedule = [
-    10, 0, 0, 0, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5,
-  ];
+  const vestingMap = useContractGetterParse({
+    contract: contracts?.karmaPrivateSaleVestingVault,
+    functionName: "getBeneficiary",
+    args: [account],
+    parser: (data) =>
+      data && {
+        amount: parseBigNumberToNumber(
+          parseBigNumberDivFloat(decimals)(data.amount)
+        ),
+        isPortionWithdraw: data.isPortionWithdraw,
+      },
+    defaultValue: {
+      amount: 0,
+      isPortionWithdraw: [],
+    },
+  });
 
   return {
     vestingInfo,
     zeroDate,
-    vestingSchedule,
+    vestingMap,
   };
 }

@@ -1,9 +1,11 @@
 import { BigNumber } from "ethers";
+import { useTokenInfo } from "src/logic";
 import { useAllData, useContractGetterParse } from "../service";
 import { parseBigNumberDivFloat, parseBigNumberToDate } from "./parsers";
 
 export function useTokenSaleInfo() {
-  const { contracts } = useAllData();
+  const { contracts, account } = useAllData();
+  const { decimals } = useTokenInfo();
 
   const karmaPrivateCrowdsaleAddress = contracts?.karmaPrivateCrowdsale.address;
 
@@ -42,9 +44,13 @@ export function useTokenSaleInfo() {
     args: [],
     parser: (data) =>
       data && {
-        minSaleCap: parseBigNumberDivFloat(18)(data.minSaleCap),
-        maxSaleCap: parseBigNumberDivFloat(18)(data.maxSaleCap),
+        minSaleCap: parseBigNumberDivFloat(decimals)(data.minSaleCap),
+        maxSaleCap: parseBigNumberDivFloat(decimals)(data.maxSaleCap),
       },
+    defaultValue: {
+      minSaleCap: BigNumber.from(1000),
+      maxSaleCap: BigNumber.from(2000),
+    },
   });
 
   const saleLimit = useContractGetterParse({
@@ -53,34 +59,42 @@ export function useTokenSaleInfo() {
     args: [],
     parser: (data) =>
       data && {
-        minSaleLimit: parseBigNumberDivFloat(18)(data.minSaleLimit),
-        maxSaleLimit: parseBigNumberDivFloat(18)(data.maxSaleLimit),
+        minSaleLimit: parseBigNumberDivFloat(decimals)(data.minSaleLimit),
+        maxSaleLimit: parseBigNumberDivFloat(decimals)(data.maxSaleLimit),
       },
+    defaultValue: {
+      minSaleLimit: BigNumber.from(1000),
+      maxSaleLimit: BigNumber.from(2000),
+    },
   });
 
-  // const { data: raiseTokenSymbol } = useContractFunction(
-  //   contracts?.ERC20(raiseToken),
-  //   "symbol"
-  // );
+  const raiseTokenSymbol = useContractGetterParse({
+    contract: raiseTokenAddress && contracts?.ERC20(raiseTokenAddress),
+    functionName: "symbol",
+    args: [],
+    defaultValue: "",
+  });
+
+  const contribution = useContractGetterParse({
+    contract: contracts?.karmaPrivateCrowdsale,
+    functionName: "getContribution",
+    args: [account],
+    parser: parseBigNumberDivFloat(decimals),
+    defaultValue: BigNumber.from(0),
+  });
 
   const saleNetwork = "BSC";
-  const raiseToken = "BUSD";
-  const minFromPrice = BigNumber.from(100);
-  const maxFromPrice = BigNumber.from(10000);
-  const softCapToken = BigNumber.from(2000000);
-  const hardCapToken = BigNumber.from(4000000);
 
   return {
     openingTime,
     closingTime,
     saleNetwork,
-    raiseToken,
+    raiseTokenSymbol,
     rate,
-    minFromPrice,
-    maxFromPrice,
-    softCapToken,
-    hardCapToken,
+    saleCap,
+    saleLimit,
     raiseTokenAddress,
     karmaPrivateCrowdsaleAddress,
+    contribution,
   };
 }

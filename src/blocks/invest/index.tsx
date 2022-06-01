@@ -59,13 +59,9 @@ export const Invest: React.FC<{}> = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const { contracts, account } = useAllData();
-  const {
-    raiseTokenAddress,
-    karmaPrivateCrowdsaleAddress,
-    minFromPrice,
-    rate,
-  } = useTokenSaleInfo();
-  const [amount, setAmount] = useState(minFromPrice);
+  const { raiseTokenAddress, karmaPrivateCrowdsaleAddress, saleLimit, rate } =
+    useTokenSaleInfo();
+  const [amount, setAmount] = useState(saleLimit?.minSaleLimit);
 
   const { data: allowance } = useContractFunctionChain(
     raiseTokenAddress && contracts?.ERC20(raiseTokenAddress),

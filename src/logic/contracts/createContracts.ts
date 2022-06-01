@@ -38,7 +38,8 @@ export function createContracts(
   ) as KarmaPrivateCrowdsale;
 
   const ERC20 = (address: string) =>
-    new Contract(address, ERC20__factory.abi, signerOrProvider) as ERC20;
+    address &&
+    (new Contract(address, ERC20__factory.abi, signerOrProvider) as ERC20);
 
   return {
     karmaToken,

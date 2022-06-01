@@ -28,6 +28,8 @@ import dayjsRelativeTime from "dayjs/plugin/relativeTime";
 import NextLink from "next/link";
 import { useMemo } from "react";
 import { BigNumber } from "ethers";
+import Decimal from "decimal.js";
+import { Duration, Time } from "src/logic";
 
 dayjs.extend(dayjsRelativeTime);
 
@@ -45,7 +47,11 @@ export interface PresaleInfoProps {
     softCapToken: BigNumber;
     hardCapToken: BigNumber;
     saleNetwork: string;
-    vestingSchedule: number[];
+
+    vestingPortionsUnlockTime: number[];
+    vestingPercentPerPortion: number[];
+    vestingPercentPrecision: number;
+
     saleStartAt: Date;
     saleEndAt: Date;
     minFromPrice: BigNumber;
@@ -61,17 +67,11 @@ export interface PresaleInfoProps {
     tokenAddress: string;
   };
   claimInfo?: {
-    amountFrom: number;
-    amountTo: number;
-
-    vesting: {
-      id: number;
-      vested: number;
+    saleTokenAmount: BigNumber;
+    vestingMap: {
       amount: number;
-      unlockAt: Date;
-      isClaimed: boolean;
-      canClaim: boolean;
-    }[];
+      isPortionWithdraw: boolean[];
+    };
   };
 }
 
@@ -81,6 +81,16 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
   timeline,
   claimInfo,
 }) => {
+  const status = useMemo<"waiting" | "process" | "finished">(() => {
+    const now = Date.now();
+    return now < +saleInfo.saleStartAt
+      ? "waiting"
+      : now >= +saleInfo.saleEndAt
+      ? "finished"
+      : "process";
+  }, [saleInfo]);
+  console.log(status);
+
   const tokenInfoData = useMemo(
     () => [
       {
@@ -158,7 +168,10 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
       },
       {
         key: "Vesting Schedule",
-        value: getVestingString(saleInfo?.vestingSchedule),
+        value: getVestingString(
+          saleInfo?.vestingPercentPerPortion,
+          saleInfo?.vestingPercentPrecision
+        ),
       },
     ],
     [tokenInfo, saleInfo]
@@ -174,12 +187,17 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
         value: dayjs(saleInfo?.saleEndAt).format("dddd, MMMM D, YYYY h:mm A"),
       },
       {
-        key: "Tokens Bounht",
-        value: `${claimInfo?.amountTo} ${tokenInfo?.tokenName} (${claimInfo?.amountFrom} ${saleInfo?.fromSymbol})`,
+        key: "Tokens Purchased",
+        value: `${claimInfo?.saleTokenAmount
+          .toNumber()
+          .toLocaleString("en-US")} ${tokenInfo?.tokenSymbol}`,
       },
       {
         key: "Vesting",
-        value: getVestingString(saleInfo?.vestingSchedule),
+        value: getVestingString(
+          saleInfo?.vestingPercentPerPortion,
+          saleInfo?.vestingPercentPrecision
+        ),
       },
     ],
     [claimInfo, saleInfo, tokenInfo]
@@ -187,20 +205,30 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
 
   const vestingData = useMemo(
     () =>
-      claimInfo?.vesting
-        ? claimInfo.vesting.map(
-            ({ id, vested, amount, unlockAt, isClaimed, canClaim }) => ({
-              id,
-              vested: `${vested * 100}%`,
-              amount: `${amount} ${tokenInfo?.tokenSymbol}`,
-              unlockAt: dayjs(unlockAt).format("dddd, MMMM D, YYYY h:mm A"),
-              isClaimed,
-              canClaim: !!canClaim,
-              canClaimAt: !canClaim ? dayjs(unlockAt).fromNow() : null,
-            })
-          )
-        : null,
-    [claimInfo, tokenInfo]
+      claimInfo?.vestingMap?.isPortionWithdraw.map((isWithdraw, index) => {
+        const time = saleInfo.vestingPortionsUnlockTime[index];
+        const portion = saleInfo.vestingPercentPerPortion[index];
+        const vested = new Decimal(portion).div(
+          saleInfo.vestingPercentPrecision
+        );
+        const amount = new Decimal(claimInfo.saleTokenAmount.toNumber())
+          .mul(portion)
+          .div(saleInfo.vestingPercentPrecision)
+          .toNumber();
+
+        const unlockAt = Time().seconds(time).toDate();
+        const canClaim = Time().seconds(time).toBN().lte(Time().toBN());
+
+        return {
+          vested: `${vested.mul(100).toNumber()}%`,
+          amount,
+          unlockAt: dayjs(unlockAt).format("dddd, MMMM D, YYYY h:mm A"),
+          isClaimed: isWithdraw,
+          canClaim,
+          canClaimAt: !canClaim ? dayjs(unlockAt).fromNow() : null,
+        };
+      }),
+    [claimInfo, saleInfo]
   );
 
   return (
@@ -208,7 +236,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
       <TabList>
         <Tab>Sale Information</Tab>
         <Tab>Token Information</Tab>
-        <Tab isDisabled={true}>Claim</Tab>
+        <Tab isDisabled={status !== "finished"}>Claim</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
@@ -274,7 +302,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
                 ))}
               </Tbody>
             </Table>
-            {vestingData ? (
+            {vestingData.length > 0 ? (
               <Accordion allowToggle={true} variant="block">
                 <AccordionItem>
                   <AccordionButton>View your claims</AccordionButton>
@@ -293,17 +321,19 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
                       </Thead>
                       <Tbody>
                         {vestingData.map(
-                          ({
-                            id,
-                            vested,
-                            amount,
-                            unlockAt,
-                            isClaimed,
-                            canClaim,
-                            canClaimAt,
-                          }) => (
-                            <Tr key={id}>
-                              <Td>{id}</Td>
+                          (
+                            {
+                              vested,
+                              amount,
+                              unlockAt,
+                              isClaimed,
+                              canClaim,
+                              canClaimAt,
+                            },
+                            index
+                          ) => (
+                            <Tr key={index}>
+                              <Td>{index}</Td>
                               <Td>{vested}</Td>
                               <Td>{amount}</Td>
                               <Td>{unlockAt}</Td>
@@ -311,7 +341,7 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
                                 {isClaimed ? (
                                   "Claimed Participation"
                                 ) : canClaim ? (
-                                  <Checkbox>Select Portion {id}</Checkbox>
+                                  <Checkbox>Select Portion {index}</Checkbox>
                                 ) : (
                                   `Unlocks ${canClaimAt}`
                                 )}
@@ -325,7 +355,13 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
                 </AccordionItem>
               </Accordion>
             ) : (
-              "No data"
+              <Box
+                border="1px solid var(--chakra-colors-teal-200)"
+                px={2}
+                py={2}
+              >
+                No data
+              </Box>
             )}
           </SimpleBlock>
         </TabPanel>
@@ -334,7 +370,13 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
   );
 };
 
-function getVestingString(vesting: number[] = []) {
+function getVestingString(
+  vesting: number[] = [],
+  vestingPrecision: number = 100
+) {
+  vesting = vesting.map((item) =>
+    new Decimal(item).div(vestingPrecision).mul(100).toNumber()
+  );
   const [tge, ...other] = vesting;
   const data: string[] = [];
 

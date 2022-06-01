@@ -44,7 +44,6 @@ export function useTokenInfo() {
   });
 
   const projectSite = "https://chakra.guru/";
-
   const tokenAddress = contracts?.karmaToken.address;
 
   return {
