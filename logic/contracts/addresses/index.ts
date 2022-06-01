@@ -1,6 +1,5 @@
 import { bsc } from "./bsc";
 import { bscTestnet } from "./bscTestnet";
-import { hardhat } from "./hardhat";
 
 export interface AddressesInterface {
   KARMA_TOKEN: string;
@@ -11,5 +10,4 @@ export interface AddressesInterface {
 export const addressesChainList: { [chainId: number]: AddressesInterface } = {
   56: bsc,
   97: bscTestnet,
-  31337: hardhat,
 };
