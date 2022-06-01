@@ -31,9 +31,12 @@ const _Header: React.FC<HeaderProps> = ({}) => {
     <Flex flex="1" justifyContent="space-between" maxH="60px">
       <Logo />
       {isDesktop ? (
-        <Flex gap={3}>
+        <Flex gap={3} alignItems="center">
           <HeaderMenu />
-          <ButtonConnect />
+          <HStack gap={1}>
+            <ProfileInfo />
+            <ButtonConnect />
+          </HStack>
           <ModeToggle />
         </Flex>
       ) : (
