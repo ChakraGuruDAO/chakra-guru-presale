@@ -37,10 +37,15 @@ import {
   maxFromPrice,
 } from "const";
 import { ButtonConnect } from "components/buttonConnect";
+import { useContracts } from "logic";
 const date = new Date(2023, 1, 1, 1, 1, 1, 0);
 
 const PresalePage: NextPage = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const { isReady, contracts } = useContracts();
+  console.log("isReady", isReady);
+  if (isReady)
+    contracts.karmaToken.totalSupply().then((data) => console.log(data));
 
   return (
     <Flex flex="1" gap="60px" direction="column">
