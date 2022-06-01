@@ -2,7 +2,7 @@ import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import { NextPage } from "next";
-import { PropsWithChildren, PropsWithRef, useEffect, useMemo } from "react";
+import { PropsWithChildren, useEffect, useLayoutEffect, useMemo } from "react";
 import theme from "src/theme";
 import { useWeb3React, Web3ReactProvider } from "@web3-react/core";
 import { ethers } from "ethers";
@@ -14,14 +14,14 @@ interface AppCustomProps extends AppProps {
 }
 
 function getLibrary(provider: any): Web3Provider {
-  console.log(provider);
   return new ethers.providers.Web3Provider(provider);
 }
 
 const DefaultProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const { activate, library } = useWeb3React<Web3Provider>();
+
   useEffect(() => {
-    activate(connectors.network);
+    activate(connectors.injected, (err) => activate(connectors.network));
   }, [activate]);
 
   return <>{children}</>;

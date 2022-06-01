@@ -11,22 +11,38 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { useWeb3React } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import { connectors } from "src/logic/connectors";
-import { useEffect } from "react";
+import { useCallback } from "react";
 
 export interface ButtonConnectProps extends ButtonProps {}
 
 export const ButtonConnect: React.FC<ButtonConnectProps> = (props) => {
-  const { chainId, account, activate, active, library, deactivate } =
+  const { chainId, account, activate, active, library } =
     useWeb3React<Web3Provider>();
   const { onOpen, isOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
-  useEffect(() => {
-    activate(connectors.injected);
-  }, [activate]);
+  console.log(chainId);
+  const onConnect = useCallback(async () => {
+    try {
+      await activate(connectors.injected, (err) =>
+        toast({
+          title: "Error",
+          status: "error",
+          description: err.message,
+          position: "bottom-right",
+        })
+      );
+
+      onClose();
+    } catch (err) {
+      console.log(err);
+    }
+  }, [toast, onClose, activate]);
 
   return (
     <>
@@ -35,7 +51,7 @@ export const ButtonConnect: React.FC<ButtonConnectProps> = (props) => {
         textAlign={["left", null, null, "right"]}
       >
         {account ? (
-          <Button onClick={deactivate}>Disconnect</Button>
+          <></>
         ) : (
           <Button colorScheme="teal" variant="outline" onClick={onOpen}>
             Connect to a wallet
@@ -57,14 +73,7 @@ export const ButtonConnect: React.FC<ButtonConnectProps> = (props) => {
               rightIcon={
                 <Img maxWidth="20px" src="/logo-metamask.png" alt="MetaMask" />
               }
-              onClick={async () => {
-                try {
-                  await activate(connectors.injected);
-                  onClose();
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
+              onClick={onConnect}
             >
               MetaMask
             </Button>

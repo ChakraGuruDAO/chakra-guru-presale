@@ -1,3 +1,5 @@
+export const defaultChainId = 56;
+
 export const projectSite = "https://chakra.guru/";
 export const saleStartAt = new Date(2022, 5, 1, 12, 0);
 export const saleEndAt = new Date(2022, 5, 30, 12, 0);

@@ -41,8 +41,6 @@ export function useTokenSaleInfo() {
     );
     setSaleCap([data[0], data[1]]);
     setSaleLimit([data[2], data[3]]);
-
-    console.log(tokenDecimals, data);
   }, [tokenDecimals, contracts]);
 
   useEffect(() => {
