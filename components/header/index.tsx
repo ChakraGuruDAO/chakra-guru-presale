@@ -60,11 +60,13 @@ const _Header: React.FC<HeaderProps> = ({}) => {
               <DrawerHeader>Menu</DrawerHeader>
               <DrawerBody>
                 <HeaderMenu />
-                <HStack gap={1}>
+                <VStack>
                   <ProfileInfo />
-                  <ButtonConnect width="100%" />
-                  <ModeToggle />
-                </HStack>
+                  <HStack gap={1}>
+                    <ButtonConnect width="100%" />
+                    <ModeToggle />
+                  </HStack>
+                </VStack>
               </DrawerBody>
             </DrawerContent>
           </Drawer>

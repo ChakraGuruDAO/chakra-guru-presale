@@ -30,12 +30,12 @@ export const ProfileInfo: React.FC<{}> = () => {
 
   const backgroundColor = useColorModeValue(
     "var(--chakra-colors-teal-50)",
-    "var(--chakra-colors-pink-50)"
+    "var(--chakra-colors-gray-800)"
   );
 
   const boxBorderColor = useColorModeValue(
     "var(--chakra-colors-teal-100)",
-    "var(--chakra-colors-pink-100)"
+    "var(--chakra-colors-gray-600)"
   );
 
   return (
@@ -50,7 +50,13 @@ export const ProfileInfo: React.FC<{}> = () => {
             gap={2}
             pl={2}
           >
-            <Text fontSize={14} px={2} py={2}>
+            <Text
+              fontSize={14}
+              px={2}
+              py={2}
+              justifyContent="center"
+              alignItems="center"
+            >
               {finalBalance} BNB
             </Text>
             <Text

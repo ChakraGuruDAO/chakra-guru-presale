@@ -14,7 +14,6 @@ export const HeaderMenu: React.FC = () => {
         </NextLink>
       </Button>
 
-      <Button disabled={true}>Dashboard</Button>
       <Button disabled={true}>Rewards</Button>
       <Button disabled={true}>Staking</Button>
       <Button disabled={true}>NFT</Button>
