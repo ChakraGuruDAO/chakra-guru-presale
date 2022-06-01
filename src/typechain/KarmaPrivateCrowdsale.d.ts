@@ -48,6 +48,7 @@ interface KarmaPrivateCrowdsaleInterface extends ethers.utils.Interface {
     "setTime(uint256,uint256)": FunctionFragment;
     "setVestingVault(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "withdrawFundsWhenCapNotReached()": FunctionFragment;
   };
 
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
@@ -146,6 +147,10 @@ interface KarmaPrivateCrowdsaleInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
+  encodeFunctionData(
+    functionFragment: "withdrawFundsWhenCapNotReached",
+    values?: undefined
+  ): string;
 
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "buyTokens", data: BytesLike): Result;
@@ -220,6 +225,10 @@ interface KarmaPrivateCrowdsaleInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "withdrawFundsWhenCapNotReached",
     data: BytesLike
   ): Result;
 
@@ -439,6 +448,10 @@ export class KarmaPrivateCrowdsale extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    withdrawFundsWhenCapNotReached(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
   balanceOf(beneficiary: string, overrides?: CallOverrides): Promise<BigNumber>;
@@ -549,6 +562,10 @@ export class KarmaPrivateCrowdsale extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  withdrawFundsWhenCapNotReached(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     balanceOf(
       beneficiary: string,
@@ -655,6 +672,8 @@ export class KarmaPrivateCrowdsale extends BaseContract {
       newOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    withdrawFundsWhenCapNotReached(overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
@@ -862,6 +881,10 @@ export class KarmaPrivateCrowdsale extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    withdrawFundsWhenCapNotReached(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -959,6 +982,10 @@ export class KarmaPrivateCrowdsale extends BaseContract {
 
     transferOwnership(
       newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    withdrawFundsWhenCapNotReached(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
