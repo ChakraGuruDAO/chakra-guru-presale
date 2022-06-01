@@ -61,6 +61,8 @@ const PresalePage: NextPage = () => {
   return (
     <Flex flex="1" gap="60px" direction="column">
       <PresaleHero
+        tokenAddress={tokenAddress}
+        decimals={decimals}
         tokenName={tokenName}
         tokenSymbol={tokenSymbol}
         fromSymbol={raiseTokenSymbol}
@@ -108,37 +110,6 @@ const PresalePage: NextPage = () => {
         claimInfo={{
           saleTokenAmount: contribution,
           vestingMap: vestingMap,
-
-          // vesting: [
-          //   {
-          //     vested: 0.1,
-          //     amount: 5.01,
-          //     unlockAt: date,
-          //     isClaimed: true,
-          //     canClaim: true,
-          //   },
-          //   {
-          //     vested: 0.1,
-          //     amount: 5.01,
-          //     unlockAt: date,
-          //     isClaimed: true,
-          //     canClaim: true,
-          //   },
-          //   {
-          //     vested: 0.1,
-          //     amount: 5.01,
-          //     unlockAt: date,
-          //     isClaimed: false,
-          //     canClaim: true,
-          //   },
-          //   {
-          //     vested: 0.1,
-          //     amount: 5.01,
-          //     unlockAt: date,
-          //     isClaimed: false,
-          //     canClaim: false,
-          //   },
-          // ],
         }}
       />
       <Flex flex="1" flexDirection="column" alignItems="center">

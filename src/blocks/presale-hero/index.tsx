@@ -14,11 +14,14 @@ import { Description } from "src/components/description";
 import { Metamask } from "src/components/metamask";
 import { Timer } from "src/components/timer";
 import { Title } from "src/components/title";
+import { addToken, useAllData, useTokenInfo } from "src/logic";
 import { TickerBlock } from "./tickerBlock";
 
 export interface PresaleHeroProps {
+  tokenAddress: string;
   tokenName: string;
   tokenSymbol: string;
+  decimals: BigNumber;
   saleStartAt: Date;
   saleEndAt: Date;
   rate: BigNumber;
@@ -28,9 +31,11 @@ export interface PresaleHeroProps {
 }
 
 export const PresaleHero: React.FC<PresaleHeroProps> = ({
+  tokenAddress,
   tokenName,
   tokenSymbol,
   rate,
+  decimals,
   softCapToken,
   hardCapToken,
   saleStartAt,
@@ -45,6 +50,18 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
       ? "finished"
       : "process";
   }, [saleStartAt, saleEndAt]);
+
+  const { provider } = useAllData();
+
+  const onClickAddToken = () => {
+    addToken(
+      provider,
+      tokenAddress,
+      tokenSymbol,
+      decimals.toNumber(),
+      "https://app.chakra.guru/karma.svg"
+    );
+  };
 
   return (
     <Flex flex={1} flexDirection="column">
@@ -89,6 +106,7 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
                 size="lg"
                 leftIcon={<Metamask size="28px" mb="2px" mr={3} />}
                 alignItems="center"
+                onClick={onClickAddToken}
               >
                 Add KARMA to MetaMask
               </Button>
