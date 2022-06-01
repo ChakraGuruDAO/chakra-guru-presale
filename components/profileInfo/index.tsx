@@ -1,11 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import blockies from "blockies-ts";
-import {
-  useEtherBalance,
-  useEthers,
-  useNotifications,
-  shortenIfAddress,
-} from "@usedapp/core";
 import {
   Box,
   Flex,
@@ -15,13 +9,22 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
-import { utils } from "ethers";
+import { useWeb3React } from "@web3-react/core";
+import { BigNumber, utils } from "ethers";
+import { Web3Provider } from "@ethersproject/providers";
 
 export const ProfileInfo: React.FC<{}> = () => {
-  const { account, deactivate } = useEthers();
-  const { notifications } = useNotifications();
-  const etherBalance = useEtherBalance(account);
-  const finalBalance = etherBalance ? utils.formatEther(etherBalance) : "";
+  const { account, deactivate, library } = useWeb3React<Web3Provider>();
+
+  const [balance, setBalance] = useState(BigNumber.from(0));
+
+  useEffect(() => {
+    if (library && account) {
+      library.getBalance(account).then((data) => setBalance(data));
+    }
+  }, [library, account]);
+
+  const finalBalance = balance ? utils.formatEther(balance) : "";
 
   let blockieImageSrc: string;
   if (typeof window !== "undefined") {
@@ -68,7 +71,7 @@ export const ProfileInfo: React.FC<{}> = () => {
               py={2}
               fontSize={14}
             >
-              {shortenIfAddress(account)}
+              {account.substring(0, 6)}...
             </Text>
           </Flex>
           <Img

@@ -1,1 +1,1 @@
-export * from "./dappConfig";
+export * from "./connectors";

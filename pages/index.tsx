@@ -1,5 +1,6 @@
 import { NextPage } from "next";
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
+import { Contract } from "@ethersproject/contracts";
 import { Dashboard } from "layouts/dashboard";
 import {
   Box,
@@ -41,7 +42,6 @@ const date = new Date(2023, 1, 1, 1, 1, 1, 0);
 const PresalePage: NextPage = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
-  // TODO
   return (
     <Flex flex="1" gap="60px" direction="column">
       <PresaleHero status="waiting" expiresAt={saleStartAt} />

@@ -2,10 +2,12 @@ import type { AppProps } from "next/app";
 import { Button, ChakraProvider } from "@chakra-ui/react";
 
 import { NextPage } from "next";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import theme from "theme";
-import { DAppProvider } from "@usedapp/core";
-import { dappConfig } from "logic";
+// import Web3Provider, { useWeb3Context } from "web3-react";
+import { Web3ReactProvider } from "@web3-react/core";
+import { connectors } from "logic";
+import { ethers } from "ethers";
 
 interface AppCustomProps extends AppProps {
   Component: NextPage;
@@ -19,11 +21,25 @@ function App({ Component, pageProps }: AppCustomProps) {
     return realNode;
   }, [Component, pageProps]);
 
+  // const context = useWeb3Context();
+
+  // useEffect(() => {
+  //   context.setFirstValidConnector(["MetaMask", "Infura"]);
+  // }, [context]);
+
   return (
     <>
-      <DAppProvider config={dappConfig}>
+      {/* {!context.active && !context.error
+        ? "Loading"
+        : context.error
+        ? JSON.stringify(context.error)
+        : "Success"} */}
+
+      <Web3ReactProvider
+        getLibrary={(provider) => new ethers.providers.Web3Provider(provider)}
+      >
         <ChakraProvider theme={theme}>{node}</ChakraProvider>
-      </DAppProvider>
+      </Web3ReactProvider>
     </>
   );
 }

@@ -12,15 +12,21 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEthers } from "@usedapp/core";
-import { walletconnect, walletlink } from "logic/connectors";
-import { useCallback } from "react";
+import { useWeb3React } from "@web3-react/core";
+import { Web3Provider } from "@ethersproject/providers";
+import { connectors } from "logic/connectors";
+import { useEffect } from "react";
 
 export interface ButtonConnectProps extends ButtonProps {}
 
 export const ButtonConnect: React.FC<ButtonConnectProps> = (props) => {
-  const { account, activate, activateBrowserWallet, deactivate } = useEthers();
+  const { chainId, account, activate, active, library, deactivate } =
+    useWeb3React<Web3Provider>();
   const { onOpen, isOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    activate(connectors.injected);
+  }, [activate]);
 
   return (
     <>
@@ -51,9 +57,13 @@ export const ButtonConnect: React.FC<ButtonConnectProps> = (props) => {
               rightIcon={
                 <Img maxWidth="20px" src="/logo-metamask.png" alt="MetaMask" />
               }
-              onClick={() => {
-                activateBrowserWallet();
-                onClose();
+              onClick={async () => {
+                try {
+                  await activate(connectors.injected);
+                  onClose();
+                } catch (err) {
+                  console.log(err);
+                }
               }}
             >
               MetaMask
@@ -73,7 +83,7 @@ export const ButtonConnect: React.FC<ButtonConnectProps> = (props) => {
               }
               onClick={async () => {
                 try {
-                  await activate(walletconnect);
+                  await activate(connectors.walletConnect);
                   onClose();
                 } catch (err) {}
               }}
@@ -95,7 +105,7 @@ export const ButtonConnect: React.FC<ButtonConnectProps> = (props) => {
               }
               onClick={async () => {
                 try {
-                  await activate(walletlink);
+                  await activate(connectors.walletLink);
                   onClose();
                 } catch (err) {}
               }}
