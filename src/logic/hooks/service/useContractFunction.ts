@@ -25,13 +25,13 @@ export function useContractFunction<
 ): UseContractFunctionReturnType<ContractType, Key, Args> {
   const { provider } = useAllData();
 
-  const fetcher = (key: string, functionName, ...args) => {
-    return contract[functionName](...args);
+  const fetcher = async (key: string, functionName, ...args) => {
+    return contract && contract[functionName](...args);
   };
 
   const dataRef = useRef(null);
   const { data, error, mutate } = useSWR(
-    [`${contract.address}_${functionName.toString()}`, functionName, ...args],
+    [`${contract?.address}_${functionName.toString()}`, functionName, ...args],
     {
       fetcher,
       dedupingInterval: 50000,
@@ -79,13 +79,13 @@ export function useContractFunctionChain<
 ): UseContractFunctionChainReturnType<ContractType, Key, Args, Output> {
   const { provider } = useAllData();
 
-  const fetcher = (key: string, functionName, ...args) => {
-    return contract[functionName](...args);
+  const fetcher = async (key: string, functionName, ...args) => {
+    return contract && contract[functionName](...args);
   };
 
   const dataRef = useRef(null);
   const { data, error, mutate } = useSWR(
-    [`${contract.address}_${functionName.toString()}`, functionName, ...args],
+    [`${contract?.address}_${functionName.toString()}`, functionName, ...args],
     {
       fetcher,
       dedupingInterval: 50000,

@@ -8,6 +8,8 @@ import {
 export function useTokenSaleInfo() {
   const { contracts } = useAllData();
 
+  const karmaPrivateCrowdsaleAddress = contracts?.karmaPrivateCrowdsale.address;
+
   const { data: openingTime } = useContractFunctionChain(
     contracts?.karmaPrivateCrowdsale,
     "getOpeningTime",
@@ -18,10 +20,10 @@ export function useTokenSaleInfo() {
     "getClosingTime",
     (data) => (data ? Duration.convertTimestampToDate(data) : new Date())
   );
-  // const { data: raiseToken } = useContractFunction(
-  //   contracts?.karmaPrivateCrowdsale,
-  //   "getRaiseToken"
-  // );
+  const { data: raiseTokenAddress } = useContractFunction(
+    contracts?.karmaPrivateCrowdsale,
+    "getRaiseToken"
+  );
   // const { data: rate } = useContractFunction(
   //   contracts?.karmaPrivateCrowdsale,
   //   "getRate"
@@ -41,7 +43,7 @@ export function useTokenSaleInfo() {
 
   const saleNetwork = "BSC";
   const raiseToken = "BUSD";
-  const tokenPrice = 0.05;
+  const tokenPrice = 20;
   const minFromPrice = 100;
   const maxFromPrice = 10000;
   const softCapToken = 2000000;
@@ -57,5 +59,7 @@ export function useTokenSaleInfo() {
     maxFromPrice,
     softCapToken,
     hardCapToken,
+    raiseTokenAddress,
+    karmaPrivateCrowdsaleAddress,
   };
 }
