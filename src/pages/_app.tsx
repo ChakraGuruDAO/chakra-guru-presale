@@ -1,5 +1,12 @@
 import type { AppProps } from "next/app";
-import { Box, ChakraProvider, Spinner, useToast, Text } from "@chakra-ui/react";
+import {
+  Box,
+  ChakraProvider,
+  Spinner,
+  useToast,
+  Text,
+  Flex,
+} from "@chakra-ui/react";
 
 import { NextPage } from "next";
 import { PropsWithChildren, useEffect, useLayoutEffect, useMemo } from "react";
@@ -55,7 +62,16 @@ const DefaultProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   ) {
     return <>{children}</>;
   }
-  return <></>;
+  return (
+    <Flex
+      width="100vw"
+      height="100vh"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Spinner size="lg" boxSize={80} />
+    </Flex>
+  );
 };
 
 function App({ Component, pageProps }: AppCustomProps) {
