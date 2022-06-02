@@ -3,7 +3,7 @@ export enum ChainId {
   BSCTestnet = 97,
 }
 
-export const defaultChainId = ChainId.BSCTestnet;
+export const defaultChainId = ChainId.BSC;
 
 export const chainGenerateExplorerUrl: Record<
   ChainId,
