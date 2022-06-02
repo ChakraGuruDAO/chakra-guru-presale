@@ -197,29 +197,33 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
 
   const vestingData = useMemo(
     () =>
-      claimInfo?.vestingMap?.isPortionWithdraw.map((isWithdraw, index) => {
-        const time = saleInfo.vestingPortionsUnlockTime[index];
-        const portion = saleInfo.vestingPercentPerPortion[index];
-        const vested = new Decimal(portion).div(
-          saleInfo.vestingPercentPrecision
-        );
-        const amount = new Decimal(claimInfo.saleTokenAmount.toNumber())
-          .mul(portion)
-          .div(saleInfo.vestingPercentPrecision)
-          .toNumber();
+      claimInfo?.vestingMap?.isPortionWithdraw &&
+      saleInfo?.vestingPortionsUnlockTime &&
+      saleInfo?.vestingPercentPerPortion
+        ? claimInfo?.vestingMap?.isPortionWithdraw.map((isWithdraw, index) => {
+            const time = saleInfo.vestingPortionsUnlockTime[index];
+            const portion = saleInfo.vestingPercentPerPortion[index] || 0;
+            const vested = new Decimal(portion).div(
+              saleInfo.vestingPercentPrecision
+            );
+            const amount = new Decimal(claimInfo.saleTokenAmount.toNumber())
+              .mul(portion)
+              .div(saleInfo.vestingPercentPrecision)
+              .toNumber();
 
-        const unlockAt = Time().seconds(time).toDate();
-        const canClaim = Time().seconds(time).toBN().lte(Time().toBN());
+            const unlockAt = Time().seconds(time).toDate();
+            const canClaim = Time().seconds(time).toBN().lte(Time().toBN());
 
-        return {
-          vested: `${vested.mul(100).toNumber()}%`,
-          amount,
-          unlockAt: dayjs(unlockAt).format("dddd, MMMM D, YYYY h:mm A"),
-          isClaimed: isWithdraw,
-          canClaim,
-          canClaimAt: !canClaim ? dayjs(unlockAt).fromNow() : null,
-        };
-      }),
+            return {
+              vested: `${vested.mul(100).toNumber()}%`,
+              amount,
+              unlockAt: dayjs(unlockAt).format("dddd, MMMM D, YYYY h:mm A"),
+              isClaimed: isWithdraw,
+              canClaim,
+              canClaimAt: !canClaim ? dayjs(unlockAt).fromNow() : null,
+            };
+          })
+        : [],
     [claimInfo, saleInfo]
   );
 

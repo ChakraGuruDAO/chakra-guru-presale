@@ -16,9 +16,13 @@ import {
   useDisclosure,
   VStack,
   Text,
+  useBoolean,
+  Img,
 } from "@chakra-ui/react";
 import {
+  chainGenerateExplorerUrl,
   useAllData,
+  useChainId,
   useContractFunction,
   useContractFunctionChain,
   useContracts,
@@ -27,14 +31,36 @@ import {
 import React, { useCallback, useMemo, useState } from "react";
 import { FaWallet } from "react-icons/fa";
 import { BigNumber } from "ethers";
+import { FirstIcon, SecondIcon } from "src/components/icons";
 
-export const Invest: React.FC<{}> = () => {
+export interface InvestProps {
+  raiseTokenAddress: string;
+  karmaPrivateCrowdsaleAddress: string;
+  tokenSymbol: string;
+  raiseSymbol: string;
+  saleBalance: BigNumber;
+  minSaleLimit: BigNumber;
+  maxSaleLimit: BigNumber;
+}
+
+export const Invest: React.FC<InvestProps> = ({
+  raiseTokenAddress,
+  karmaPrivateCrowdsaleAddress,
+  tokenSymbol,
+  raiseSymbol,
+  saleBalance,
+  minSaleLimit,
+  maxSaleLimit,
+}) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const { contracts, account } = useAllData();
-  const { raiseTokenAddress, karmaPrivateCrowdsaleAddress, saleLimit, rate } =
-    useTokenSaleInfo();
-  const [amount, setAmount] = useState(saleLimit?.minSaleLimit);
+  const chainId = useChainId();
+
+  const { rate } = useTokenSaleInfo();
+  const [amountLoading, setAmountLoading] = useState(false);
+  const [buyLoading, setBuyLoading] = useState(false);
+  const [amount, setAmount] = useState(minSaleLimit);
 
   const { data: allowance } = useContractFunctionChain(
     raiseTokenAddress && contracts?.ERC20(raiseTokenAddress),
@@ -60,12 +86,20 @@ export const Invest: React.FC<{}> = () => {
     const raiseContract =
       raiseTokenAddress && contracts?.ERC20(raiseTokenAddress);
     if (raiseContract && karmaPrivateCrowdsaleAddress) {
-      await raiseContract.approve(
-        karmaPrivateCrowdsaleAddress,
-        BigNumber.from(1000).pow(18).sub(1)
-      );
+      setAmountLoading(true);
+      const tx = await raiseContract.functions
+        .approve(
+          karmaPrivateCrowdsaleAddress,
+          BigNumber.from(1000).pow(18).sub(1)
+        )
+        .finally(() => setAmountLoading(false));
+
+      const url =
+        chainGenerateExplorerUrl[chainId] &&
+        chainGenerateExplorerUrl[chainId](tx.hash);
+      if (url) window.open(chainGenerateExplorerUrl[chainId], "_blank");
     }
-  }, [contracts, raiseTokenAddress, karmaPrivateCrowdsaleAddress]);
+  }, [contracts, raiseTokenAddress, karmaPrivateCrowdsaleAddress, chainId]);
 
   const onBuy = useCallback(async () => {
     if (contracts?.karmaPrivateCrowdsale) {
@@ -96,6 +130,29 @@ export const Invest: React.FC<{}> = () => {
           <ModalBody>
             <VStack gap={3} mb={4}>
               <VStack width="full" gap={2}>
+                <Box width="full">
+                  <HStack justifyContent="space-between">
+                    <Text fontSize={14}>Your balance</Text>
+                    <Text fontSize={14}>
+                      {balance.toNumber()} {raiseSymbol}
+                    </Text>
+                  </HStack>
+
+                  <HStack justifyContent="space-between">
+                    <Text fontSize={14}>Min limit for 1 User</Text>
+                    <Text fontSize={14}>
+                      {minSaleLimit?.toNumber()} {tokenSymbol}
+                    </Text>
+                  </HStack>
+
+                  <HStack justifyContent="space-between">
+                    <Text fontSize={14}>Max limit for 1 User</Text>
+                    <Text fontSize={14}>
+                      {maxSaleLimit?.toNumber()} {tokenSymbol}
+                    </Text>
+                  </HStack>
+                </Box>
+
                 <HStack width="full" justifyContent="space-between" gap={10}>
                   <NumberInput
                     flex={1}
@@ -131,20 +188,28 @@ export const Invest: React.FC<{}> = () => {
                 </HStack>
               </VStack>
 
-              {allowance.gte(amount) ? (
+              <HStack width="full" justifyContent="space-between" gap={4}>
+                <Button
+                  colorScheme="red"
+                  width="full"
+                  onClick={onApprove}
+                  disabled={allowance.gte(amount)}
+                  leftIcon={<FirstIcon boxSize={6} color="white" />}
+                  isLoading={amountLoading}
+                >
+                  Approve
+                </Button>
                 <Button
                   width="full"
                   onClick={onBuy}
-                  disabled={balance.lt(amount)}
+                  disabled={allowance.lt(amount) || balance.lt(amount)}
                   colorScheme="blue"
+                  leftIcon={<SecondIcon ml={1} boxSize={6} color="white" />}
+                  isLoading={buyLoading}
                 >
                   {balance.lt(amount) ? "Not enough money" : "Buy tokens"}
                 </Button>
-              ) : (
-                <Button colorScheme="red" width="full" onClick={onApprove}>
-                  Approve
-                </Button>
-              )}
+              </HStack>
             </VStack>
           </ModalBody>
         </ModalContent>

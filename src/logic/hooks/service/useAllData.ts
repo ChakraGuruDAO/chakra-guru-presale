@@ -12,6 +12,7 @@ export function useAllData() {
     setError,
     error,
     deactivate,
+    chainId,
     library: provider,
   } = useWeb3React<Web3Provider>();
   const { addresses, contracts } = useContracts();

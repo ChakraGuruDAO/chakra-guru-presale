@@ -31,6 +31,8 @@ const PresalePage: NextPage = () => {
     raiseTokenSymbol,
     contribution,
     isFinished,
+    raiseTokenAddress,
+    karmaPrivateCrowdsaleAddress,
   } = useTokenSaleInfo();
 
   const { vestingInfo, zeroDate, vestingMap } = useVestingInfo();
@@ -68,6 +70,10 @@ const PresalePage: NextPage = () => {
         rate={rate}
         softCapToken={saleCap?.minSaleCap}
         hardCapToken={saleCap?.maxSaleCap}
+        minSaleLimit={saleLimit?.minSaleLimit}
+        maxSaleLimit={saleLimit?.maxSaleLimit}
+        raiseTokenAddress={raiseTokenAddress}
+        karmaPrivateCrowdsaleAddress={karmaPrivateCrowdsaleAddress}
       />
       <PresaleInfo
         status={status}

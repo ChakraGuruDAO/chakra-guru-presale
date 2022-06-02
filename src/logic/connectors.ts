@@ -3,29 +3,28 @@ import { InjectedConnector } from "@web3-react/injected-connector";
 import { NetworkConnector } from "@web3-react/network-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
+import {
+  chainNetworkUrls,
+  chainSupportedNetworks,
+  defaultChainId,
+} from "./chains";
 
 const injected = new InjectedConnector({
-  supportedChainIds: [56, 97],
+  supportedChainIds: chainSupportedNetworks,
 });
 
 const network = new NetworkConnector({
-  defaultChainId: 56,
-  urls: {
-    56: "https://bsc-dataseed1.binance.org",
-    97: "https://data-seed-prebsc-1-s1.binance.org:8545",
-  },
+  defaultChainId,
+  urls: chainNetworkUrls,
 });
 
 const walletConnect = new WalletConnectConnector({
-  rpc: {
-    56: "https://bsc-dataseed1.binance.org",
-    97: "https://data-seed-prebsc-1-s1.binance.org:8545",
-  },
+  rpc: chainNetworkUrls,
   qrcode: true,
 });
 
 const walletLink = new WalletLinkConnector({
-  url: "https://bsc-dataseed1.binance.org",
+  url: chainNetworkUrls[defaultChainId],
   appName: "Coinbase",
   supportedChainIds: [56, 97],
 });

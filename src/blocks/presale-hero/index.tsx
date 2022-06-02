@@ -30,6 +30,10 @@ export interface PresaleHeroProps {
   hardCapToken: BigNumber;
   fromSymbol: string;
   saleBalance: BigNumber;
+  minSaleLimit: BigNumber;
+  maxSaleLimit: BigNumber;
+  raiseTokenAddress: string;
+  karmaPrivateCrowdsaleAddress: string;
 }
 
 export const PresaleHero: React.FC<PresaleHeroProps> = ({
@@ -45,6 +49,10 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
   fromSymbol,
   saleBalance,
   status,
+  minSaleLimit,
+  maxSaleLimit,
+  raiseTokenAddress,
+  karmaPrivateCrowdsaleAddress,
 }) => {
   const { provider } = useAllData();
 
@@ -95,7 +103,15 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
             {status === "waiting" ? (
               <Timer expireOn={saleStartAt} />
             ) : status === "process" ? (
-              <Invest />
+              <Invest
+                tokenSymbol={tokenSymbol}
+                raiseSymbol={fromSymbol}
+                minSaleLimit={minSaleLimit}
+                maxSaleLimit={maxSaleLimit}
+                saleBalance={saleBalance}
+                raiseTokenAddress={raiseTokenAddress}
+                karmaPrivateCrowdsaleAddress={karmaPrivateCrowdsaleAddress}
+              />
             ) : status === "finished" ? (
               <Button
                 size="lg"
