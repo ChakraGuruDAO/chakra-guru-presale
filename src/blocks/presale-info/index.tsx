@@ -211,8 +211,13 @@ export const PresaleInfo: React.FC<PresaleInfoProps> = ({
               .div(saleInfo.vestingPercentPrecision)
               .toNumber();
 
-            const unlockAt = Time().seconds(time).toDate();
-            const canClaim = Time().seconds(time).toBN().lte(Time().toBN());
+            const unlockAt = Time()
+              .seconds(time || 0)
+              .toDate();
+            const canClaim = Time()
+              .seconds(time || 0)
+              .toBN()
+              .lte(Time().toBN());
 
             return {
               vested: `${vested.mul(100).toNumber()}%`,

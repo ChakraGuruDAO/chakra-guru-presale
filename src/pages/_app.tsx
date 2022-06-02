@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import { ChakraProvider, useToast } from "@chakra-ui/react";
+import { Box, ChakraProvider, Spinner, useToast, Text } from "@chakra-ui/react";
 
 import { NextPage } from "next";
 import { PropsWithChildren, useEffect, useLayoutEffect, useMemo } from "react";
@@ -7,7 +7,13 @@ import theme from "src/theme";
 import { useWeb3React, Web3ReactProvider } from "@web3-react/core";
 import { ethers } from "ethers";
 import { Web3Provider } from "@ethersproject/providers";
-import { connectors } from "src/logic";
+import {
+  connectors,
+  useAllData,
+  useTokenInfo,
+  useTokenSaleInfo,
+  useVestingInfo,
+} from "src/logic";
 
 interface AppCustomProps extends AppProps {
   Component: NextPage;
@@ -18,7 +24,10 @@ function getLibrary(provider: any): Web3Provider {
 }
 
 const DefaultProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-  const { activate, library } = useWeb3React<Web3Provider>();
+  const { activate } = useAllData();
+  const { totalSupply, decimals } = useTokenInfo();
+  const { raiseTokenAddress, saleBalance, rate } = useTokenSaleInfo();
+  const { vestingInfo, vestingMap } = useVestingInfo();
   const toast = useToast();
 
   useEffect(() => {
@@ -34,7 +43,19 @@ const DefaultProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     });
   }, [toast, activate]);
 
-  return <>{children}</>;
+  if (
+    totalSupply &&
+    raiseTokenAddress &&
+    saleBalance &&
+    decimals &&
+    rate &&
+    vestingInfo.vestingPortionsUnlockTime &&
+    vestingInfo.vestingPercentPerPortion &&
+    vestingMap.isPortionWithdraw
+  ) {
+    return <>{children}</>;
+  }
+  return <></>;
 };
 
 function App({ Component, pageProps }: AppCustomProps) {
