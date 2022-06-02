@@ -26,7 +26,7 @@ const walletConnect = new WalletConnectConnector({
 const walletLink = new WalletLinkConnector({
   url: chainNetworkUrls[defaultChainId],
   appName: "Coinbase",
-  supportedChainIds: [56, 97],
+  supportedChainIds: chainSupportedNetworks,
 });
 
 export const connectors = {

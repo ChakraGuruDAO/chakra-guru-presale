@@ -1,3 +1,4 @@
+import { ChainId } from "src/logic/chains";
 import { bsc } from "./bsc";
 import { bscTestnet } from "./bscTestnet";
 
@@ -7,7 +8,7 @@ export interface AddressesInterface {
   KARMA_PRIVATE_SALE_CROWDSALE: string;
 }
 
-export const addressesChainList: { [chainId: number]: AddressesInterface } = {
-  56: bsc,
-  97: bscTestnet,
+export const addressesChainList: Record<ChainId, AddressesInterface> = {
+  [ChainId.BSC]: bsc,
+  [ChainId.BSCTestnet]: bscTestnet,
 };

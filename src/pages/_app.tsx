@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, useToast } from "@chakra-ui/react";
 
 import { NextPage } from "next";
 import { PropsWithChildren, useEffect, useLayoutEffect, useMemo } from "react";
@@ -19,10 +19,20 @@ function getLibrary(provider: any): Web3Provider {
 
 const DefaultProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const { activate, library } = useWeb3React<Web3Provider>();
+  const toast = useToast();
 
   useEffect(() => {
-    activate(connectors.injected, (err) => activate(connectors.network));
-  }, [activate]);
+    activate(connectors.injected, (err) => {
+      activate(connectors.network, (err) => {
+        toast({
+          title: "Error",
+          status: "error",
+          description: err.message,
+          position: "bottom-right",
+        });
+      });
+    });
+  }, [toast, activate]);
 
   return <>{children}</>;
 };
