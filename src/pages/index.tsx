@@ -58,6 +58,7 @@ const PresalePage: NextPage = () => {
   return (
     <Flex flex="1" gap="60px" direction="column">
       <PresaleHero
+        contribution={contribution}
         status={status}
         saleBalance={saleBalance}
         tokenAddress={tokenAddress}

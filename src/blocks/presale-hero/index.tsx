@@ -34,6 +34,7 @@ export interface PresaleHeroProps {
   maxSaleLimit: BigNumber;
   raiseTokenAddress: string;
   karmaPrivateCrowdsaleAddress: string;
+  contribution: BigNumber;
 }
 
 export const PresaleHero: React.FC<PresaleHeroProps> = ({
@@ -53,6 +54,7 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
   maxSaleLimit,
   raiseTokenAddress,
   karmaPrivateCrowdsaleAddress,
+  contribution,
 }) => {
   const { provider } = useAllData();
 
@@ -108,7 +110,7 @@ export const PresaleHero: React.FC<PresaleHeroProps> = ({
                 raiseSymbol={fromSymbol}
                 minSaleLimit={minSaleLimit}
                 maxSaleLimit={maxSaleLimit}
-                saleBalance={saleBalance}
+                contribution={contribution}
                 raiseTokenAddress={raiseTokenAddress}
                 karmaPrivateCrowdsaleAddress={karmaPrivateCrowdsaleAddress}
               />
